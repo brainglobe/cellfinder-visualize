@@ -1,6 +1,7 @@
 import fire
 
 from cellfinder_explore.process_summary import plot_cellfinder_bar_summary
+from cellfinder_explore.region_groupings import region_dict
 from cellfinder_explore.render import render_areas
 
 
@@ -12,28 +13,6 @@ def analyse(experiment_filepath,
             show_root_structures=True,
             filter_cells_by_structure=True,
             ):
-
-    region_dict = {
-        "CTX": [
-            "VISp",
-            "VISpor",
-            "VISli",
-            "VISl",
-            "VISal",
-            "VISrl",
-            "VISam",
-            "VISpm",
-            "RSPd",
-        ],
-        "TH": [
-            "LP",
-            "POL",
-            "PIL",
-            "PoT",
-            "SGN",
-            "PF",
-        ],
-    }
 
     for reference_region, region_list in region_dict.items():
         plot_cellfinder_bar_summary(
