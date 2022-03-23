@@ -130,7 +130,7 @@ def plot_cellfinder_bar_summary(
     for metric, ax in zip(metrics, axes_dict.values()):
         plt.sca(ax)
 
-        sns.barplot(data=single_brain_df, x="region", y=metric)
+        sns.barplot(data=single_brain_df, x="region", y=metric, color='k')
         plt.xlim([-1, len(plotting_keys)])
         plt.xticks(rotation=90)
         if output_directory is not None:

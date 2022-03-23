@@ -110,16 +110,16 @@ def make_figure():
     # position of legend labels, 297 - X to be like Illustrator
     labels = {
         "a": [20 + offset_x, 297 - 30 - offset_y, 0, 0],
-        "b": [108 + offset_x, 297 - 30 - offset_y, 0, 0],
-        "c": [20 + offset_x, 297 - 78 - offset_y, 0, 0],
-        "d": [108 + offset_x, 297 - 78 - offset_y, 0, 0],
+        "b": [118 + offset_x, 297 - 30 - offset_y, 0, 0],
+        "c": [20 + offset_x, 297 - 88 - offset_y, 0, 0],
+        "d": [118 + offset_x, 297 - 88 - offset_y, 0, 0],
     }
 
     axis_positions = {
         "a": [37 + offset_x, 297 - 67 - offset_y, 62, 32],
-        "b": [117 + offset_x, 297 - 67 - offset_y, 62, 32],
-        "c": [37 + offset_x, 297 - 117 - offset_y, 62, 32],
-        "d": [117 + offset_x, 297 - 117 - offset_y, 62, 32],
+        "b": [127 + offset_x, 297 - 67 - offset_y, 62, 32],
+        "c": [37 + offset_x, 297 - 137 - offset_y, 62, 32],
+        "d": [127 + offset_x, 297 - 137 - offset_y, 62, 32],
     }
 
     # add the legend labels
