@@ -7,7 +7,7 @@ import numpy as np
 def render_areas(
     points_file,
     region_keys,
-    whole_brain=False,
+    filter_cells_by_structure=False,
     coronal_slice=None,
     slice_thickness=None,
     root=True,
@@ -16,7 +16,7 @@ def render_areas(
 
     _colors = ["#9b59b6", "#3498db", "#2ecc71", "#e74c3c", "#fdb462ff", "y"] * 10
 
-    if whole_brain:
+    if not filter_cells_by_structure:
         scene = Scene(title="labelled cells", root=root)
         cells = Points(points_file, radius=20, colors="r", alpha=0.1)
         scene.add(cells)
@@ -27,11 +27,13 @@ def render_areas(
     else:
         scene = Scene(title="labelled cells", root=root)
         regions_rendered = []
-        ctx = scene.add_brain_region("CTX", color="grey", alpha=0.3)
-        th = scene.add_brain_region("TH", color="grey", alpha=0.3)
-        scs = scene.add_brain_region("SCs", color="grey", alpha=0.3)
-        scm = scene.add_brain_region("SCm", color="grey", alpha=0.3)
-        [regions_rendered.append(x) for x in [ctx, th, scs, scm, scene.root]]
+        if root:
+            ctx = scene.add_brain_region("CTX", color="grey", alpha=0.3)
+            th = scene.add_brain_region("TH", color="grey", alpha=0.3)
+            scs = scene.add_brain_region("SCs", color="grey", alpha=0.3)
+            scm = scene.add_brain_region("SCm", color="grey", alpha=0.3)
+            [regions_rendered.append(x) for x in [ctx, th, scs, scm, scene.root]]
+
         for region_name, color in zip(region_keys, _colors):
             region = scene.add_brain_region(region_name, color=color, alpha=0.3)
             regions_rendered.append(region)
