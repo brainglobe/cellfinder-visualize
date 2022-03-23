@@ -132,7 +132,7 @@ def plot_cellfinder_bar_summary(
 
         sns.barplot(data=single_brain_df, x="region", y=metric, color='k')
         plt.xlim([-1, len(plotting_keys)])
-        plt.xticks(rotation=90)
+        plt.xticks(rotation=45)
         if output_directory is not None:
             save_output(
                 h_fig,
