@@ -3,6 +3,8 @@ from brainrender import Scene
 from brainrender.actors import Points
 import numpy as np
 
+from cellfinder_explore.region_groupings import brainrender_reference_structures
+
 
 def render_areas(
     points_file,
@@ -11,6 +13,7 @@ def render_areas(
     coronal_slice=None,
     slice_thickness=None,
     root=True,
+    show_reference_structures=None,
 ):
     brainrender.SHADER_STYLE = "cartoon"
 
@@ -27,12 +30,14 @@ def render_areas(
     else:
         scene = Scene(title="labelled cells", root=root)
         regions_rendered = []
+
         if root:
-            ctx = scene.add_brain_region("CTX", color="grey", alpha=0.3)
-            th = scene.add_brain_region("TH", color="grey", alpha=0.3)
-            scs = scene.add_brain_region("SCs", color="grey", alpha=0.3)
-            scm = scene.add_brain_region("SCm", color="grey", alpha=0.3)
-            [regions_rendered.append(x) for x in [ctx, th, scs, scm, scene.root]]
+            regions_rendered.append(scene.root)
+
+        if show_reference_structures:
+            for k in brainrender_reference_structures:
+                reg = scene.add_brain_region(k, color="grey", alpha=0.3)
+                regions_rendered.append(reg)
 
         for region_name, color in zip(region_keys, _colors):
             region = scene.add_brain_region(region_name, color=color, alpha=0.3)
@@ -48,9 +53,8 @@ def render_areas(
                 scene.add_silhouette(region, lw=3)
 
     if coronal_slice is not None:
-        xyz = ctx.centerOfMass()
-        xyz[0] = xyz[0] + coronal_slice
-
+        xyz = np.array([0.42493656, 3829.52651499, 5682.68089654])
+        xyz[0] += coronal_slice
         # Slice with a custom plane
         plane = scene.atlas.get_plane(pos=xyz, norm=(1, 0, 0))
         scene.slice(plane, actors=regions_rendered, close_actors=True)

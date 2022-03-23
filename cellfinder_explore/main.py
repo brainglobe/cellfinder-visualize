@@ -10,7 +10,8 @@ def analyse(experiment_filepath,
             output_directory=None,
             coronal_slice_position=2000,
             slice_thickness=1000,
-            show_root_structures=True,
+            root=True,
+            reference_structures=True,
             filter_cells_by_structure=True,
             ):
 
@@ -24,7 +25,8 @@ def analyse(experiment_filepath,
                 region_list,
                 coronal_slice=coronal_slice_position,
                 slice_thickness=slice_thickness,
-                root=show_root_structures,
+                root=root,
+                show_reference_structures=reference_structures,
                 filter_cells_by_structure=filter_cells_by_structure,
             )
 

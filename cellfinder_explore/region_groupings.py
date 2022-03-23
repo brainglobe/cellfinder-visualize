@@ -19,3 +19,5 @@ region_dict = {
             "PF",
         ],
     }
+
+brainrender_reference_structures = ["TH", "SCs", "SCm", "PAG"]
