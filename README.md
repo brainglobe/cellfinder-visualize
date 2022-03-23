@@ -19,7 +19,7 @@ Simply run from the commandline as follows
 
 ```conda activate cellfinder_explore```
 
-``````
+```explore_sample path/to/summary.csv path/to/points.npy path/to/save/output```
 
 
 
