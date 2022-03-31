@@ -7,7 +7,7 @@
 
 ```conda activate cellfinder_explore```
 
-```git clone https://github.com/stephenlenzi/cellfinder-explore```
+```git clone https://github.com/SainsburyWellcomeCentre/cellfinder-explore.git```
 
 ```cd cellfinder-explore```
 
