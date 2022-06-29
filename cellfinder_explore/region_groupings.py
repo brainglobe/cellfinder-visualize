@@ -2,22 +2,22 @@ region_dict = {
         "CTX": [
             "VISp",
             "VISpor",
-            "VISli",
-            "VISl",
-            "VISal",
-            "VISrl",
-            "VISam",
-            "VISpm",
-            "RSPd",
+            # "VISli",
+            # "VISl",
+            # "VISal",
+            # "VISrl",
+            # "VISam",
+            # "VISpm",
+            # "RSPd",
         ],
-        "TH": [
-            "LP",
-            "POL",
-            "PIL",
-            "PoT",
-            "SGN",
-            "PF",
-        ],
+        # "TH": [
+        #     "LP",
+        #     "POL",
+        #     "PIL",
+        #     "PoT",
+        #     "SGN",
+        #     "PF",
+        # ],
     }
 
-brainrender_reference_structures = ["TH", "SCs", "SCm", "PAG"]
+reference_structures_to_render = ["TH", "SCs", "SCm", "PAG"]

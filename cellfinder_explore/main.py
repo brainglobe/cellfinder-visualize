@@ -8,11 +8,15 @@ from cellfinder_explore.render import render_areas
 def analyse(experiment_filepath,
             points_filepath=None,
             output_directory=None,
-            coronal_slice_position=2000,
+            coronal_slice_position=None,
             slice_thickness=1000,
             root=True,
-            reference_structures=True,
-            filter_cells_by_structure=True,
+            show_reference_structures=True,
+            filter_cells_by_structure=False,
+            hemisphere='left',
+            slice_root=False,
+            downsample_factor=5,
+            highlight_subregion=None,
             ):
 
     for reference_region, region_list in region_dict.items():
@@ -26,8 +30,12 @@ def analyse(experiment_filepath,
                 coronal_slice=coronal_slice_position,
                 slice_thickness=slice_thickness,
                 root=root,
-                show_reference_structures=reference_structures,
+                show_reference_structures=show_reference_structures,
                 filter_cells_by_structure=filter_cells_by_structure,
+                hemisphere=hemisphere,
+                slice_root=slice_root,
+                downsample_factor=downsample_factor,
+                highlight_subregion=highlight_subregion,
             )
 
 
