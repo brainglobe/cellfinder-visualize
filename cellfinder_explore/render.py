@@ -50,7 +50,7 @@ def render_areas(
     if coronal_slice is not None:
         slice_coronal_volume(coronal_slice, regions_rendered, scene, slice_thickness)
 
-    elif hemisphere:
+    elif hemisphere != 'both':
         remove_unwanted_hemisphere(hemisphere, regions_rendered, scene)
     scene.render()
 

@@ -26,8 +26,8 @@ def highlight_layer(highlight_substructure_key, region_name, regions_rendered, s
     if highlight_substructure_key is not None:
         for k in children:
             if k != region_name:
-                if highlight_substructure_key in k:
-                    add_substructure_region(hemisphere, highlight_substructure_key, k, regions_rendered, scene)
+                if str(highlight_substructure_key) in k:
+                    add_substructure_region(hemisphere, k, regions_rendered, scene)
     else:
         for k in children:
             if k != region_name:
