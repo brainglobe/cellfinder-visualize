@@ -8,7 +8,6 @@ from cellfinder_explore.render import render_areas
 
 
 def analyse(experiment_dir,
-            points_dir=None,
             output_directory=None,
             coronal_slice_position=None,
             slice_thickness=1000,
@@ -28,7 +27,7 @@ def analyse(experiment_dir,
         plot_cellfinder_bar_summary(
             summary_files, region_list, reference_region, output_directory
         )
-        if points_dir is not None:
+        if experiment_dir is not None:
             render_areas(
                 points_files,
                 region_list,
