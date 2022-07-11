@@ -39,7 +39,8 @@ def render_areas(
     if not filter_cells_by_structure:
         for cells, color in zip(all_samples_cells, _colors):
             render_cells_in_region(cells, scene.root, regions_rendered, scene, color=color)
-        render_regions(_colors, region_keys, scene, hemisphere=hemisphere)
+        regions = render_regions(_colors, region_keys, scene, hemisphere=hemisphere)
+        regions_rendered.extend(regions)
 
     else:
 

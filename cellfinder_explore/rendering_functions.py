@@ -36,7 +36,7 @@ def highlight_layer(highlight_substructure_key, region_name, regions_rendered, s
 
 def add_substructure_region(hemisphere, k, regions_rendered, scene):
     r = scene.add_brain_region(k, color='w', alpha=0.1, hemisphere=hemisphere)
-    scene.add_silhouette(r, color='b', lw=3)
+    scene.add_silhouette(r, color='b', lw=1)
     regions_rendered.append(r)
 
 
@@ -58,7 +58,7 @@ def remove_unwanted_hemisphere(lateralisation, regions_rendered, scene):
 
 
 def slice_coronal_volume(coronal_slice, regions_rendered, scene, slice_thickness):
-    xyz = np.array([0.42493656, 3829.52651499, 5682.68089654])  # abitrary point
+    xyz = np.array([0.00000000, 3829.52651499, 5682.68089654])  # abitrary point
     xyz[0] += coronal_slice
 
     plane = scene.atlas.get_plane(pos=xyz, norm=(1, 0, 0))
