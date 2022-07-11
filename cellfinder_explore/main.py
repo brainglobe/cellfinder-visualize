@@ -1,3 +1,5 @@
+import pathlib
+
 import fire
 
 from cellfinder_explore.process_summary import plot_cellfinder_bar_summary
@@ -5,8 +7,7 @@ from cellfinder_explore.region_groupings import region_dict
 from cellfinder_explore.render import render_areas
 
 
-def analyse(experiment_filepath,
-            points_filepath=None,
+def analyse(experiment_dir,
             output_directory=None,
             coronal_slice_position=None,
             slice_thickness=1000,
@@ -18,14 +19,17 @@ def analyse(experiment_filepath,
             downsample_factor=5,
             highlight_subregion=None,
             ):
+    experiment_dir = pathlib.Path(experiment_dir)
+    points_files = list(experiment_dir.rglob('points*'))
+    summary_files = list(experiment_dir.rglob('summary*'))
 
     for reference_region, region_list in region_dict.items():
         plot_cellfinder_bar_summary(
-            experiment_filepath, region_list, reference_region, output_directory
+            summary_files, region_list, reference_region, output_directory
         )
-        if points_filepath is not None:
+        if experiment_dir is not None:
             render_areas(
-                points_filepath,
+                points_files,
                 region_list,
                 coronal_slice=coronal_slice_position,
                 slice_thickness=slice_thickness,

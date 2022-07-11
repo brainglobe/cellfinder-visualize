@@ -19,7 +19,7 @@ Simply run from the commandline as follows
 
 ```conda activate cellfinder_explore```
 
-```explore_sample --experiment_filepath path/to/summary.csv --points_filepath path/to/points.npy --output_directory path/to/save/output --coronal_slice_position 4500 --slice_thickness 4000 --root True --show_reference_structures True --filter_cells_by_structure True```
+```explore_sample --experiment_directory path/to/all/samples --output_directory path/to/save/output --coronal_slice_position None --slice_thickness 4000 --root True --show_reference_structures True --filter_cells_by_structure True downsample_factor 10```
 
 ![example_readme1](https://user-images.githubusercontent.com/12136220/159718609-3936a211-4a8b-4ccd-a1fd-4d709c0c7202.png)
 

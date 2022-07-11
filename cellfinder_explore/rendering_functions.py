@@ -4,10 +4,10 @@ from brainrender.actors import Points
 from cellfinder_explore.process_summary import get_all_children
 
 
-def render_cells_in_regions(cells, regions, regions_rendered, scene):
+def render_cells_in_regions(cells, regions, regions_rendered, scene,color):
     for region in regions:
         if region is not None:
-            render_cells_in_region(cells, region, regions_rendered, scene)
+            render_cells_in_region(cells, region, regions_rendered, scene,color)
 
 
 def render_regions(_colors, region_keys, scene, hemisphere):
@@ -36,17 +36,17 @@ def highlight_layer(highlight_substructure_key, region_name, regions_rendered, s
 
 def add_substructure_region(hemisphere, k, regions_rendered, scene):
     r = scene.add_brain_region(k, color='w', alpha=0.1, hemisphere=hemisphere)
-    scene.add_silhouette(r, color='b', lw=3)
+    scene.add_silhouette(r, color='b', lw=1)
     regions_rendered.append(r)
 
 
-def render_cells_in_region(cells, region, regions_rendered, scene):
+def render_cells_in_region(cells, region, regions_rendered, scene, color):
     cells_in_region = region.mesh.insidePoints(cells).points()
     cells_in_region = Points(
-        cells_in_region, radius=20, colors="r", alpha=0.5
+        cells_in_region, radius=20, colors=color, alpha=0.5
     )
-    regions_rendered.append(cells_in_region)
     scene.add(cells_in_region)
+    regions_rendered.append(cells_in_region)
     scene.add_silhouette(region, lw=3)
 
 
@@ -58,7 +58,7 @@ def remove_unwanted_hemisphere(lateralisation, regions_rendered, scene):
 
 
 def slice_coronal_volume(coronal_slice, regions_rendered, scene, slice_thickness):
-    xyz = np.array([0.42493656, 3829.52651499, 5682.68089654])  # abitrary point
+    xyz = np.array([0.00000000, 3829.52651499, 5682.68089654])  # abitrary point
     xyz[0] += coronal_slice
 
     plane = scene.atlas.get_plane(pos=xyz, norm=(1, 0, 0))
