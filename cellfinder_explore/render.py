@@ -8,7 +8,7 @@ from cellfinder_explore.rendering_functions import render_cells_in_regions, rend
 
 
 def render_areas(
-    points_file,
+    points_files,
     region_keys,
     filter_cells_by_structure=False,
     coronal_slice=None,
@@ -25,7 +25,10 @@ def render_areas(
     _colors = ["#9b59b6", "#3498db", "#2ecc71", "#e74c3c", "#fdb462ff", "y"] * 10
     regions_rendered = []
     scene = Scene(title="labelled cells", root=root)
-    cells = np.load(points_file)[::downsample_factor]
+    all_samples_cells = []
+    for points_file in points_files:
+        cells = np.load(points_file)[::downsample_factor]
+        all_samples_cells.append(cells)
 
     if slice_root:
         regions_rendered.append(scene.root)
@@ -34,7 +37,8 @@ def render_areas(
         highlight_layer(highlight_subregion, region_name, regions_rendered, scene, hemisphere)
 
     if not filter_cells_by_structure:
-        render_cells_in_region(cells, scene.root, regions_rendered, scene)
+        for cells, color in zip(all_samples_cells, _colors):
+            render_cells_in_region(cells, scene.root, regions_rendered, scene, color=color)
         render_regions(_colors, region_keys, scene, hemisphere=hemisphere)
 
     else:
@@ -45,7 +49,8 @@ def render_areas(
                 regions_rendered.append(reg)
 
         regions = render_regions(_colors, region_keys, scene, hemisphere)
-        render_cells_in_regions(cells, regions, regions_rendered, scene)
+        for cells, color in zip(all_samples_cells, _colors):
+            render_cells_in_regions(cells, regions, regions_rendered, scene, color=color)
 
     if coronal_slice is not None:
         slice_coronal_volume(coronal_slice, regions_rendered, scene, slice_thickness)

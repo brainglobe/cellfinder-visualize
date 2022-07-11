@@ -4,10 +4,10 @@ from brainrender.actors import Points
 from cellfinder_explore.process_summary import get_all_children
 
 
-def render_cells_in_regions(cells, regions, regions_rendered, scene):
+def render_cells_in_regions(cells, regions, regions_rendered, scene,color):
     for region in regions:
         if region is not None:
-            render_cells_in_region(cells, region, regions_rendered, scene)
+            render_cells_in_region(cells, region, regions_rendered, scene,color)
 
 
 def render_regions(_colors, region_keys, scene, hemisphere):
@@ -40,13 +40,13 @@ def add_substructure_region(hemisphere, k, regions_rendered, scene):
     regions_rendered.append(r)
 
 
-def render_cells_in_region(cells, region, regions_rendered, scene):
+def render_cells_in_region(cells, region, regions_rendered, scene, color):
     cells_in_region = region.mesh.insidePoints(cells).points()
     cells_in_region = Points(
-        cells_in_region, radius=20, colors="r", alpha=0.5
+        cells_in_region, radius=20, colors=color, alpha=0.5
     )
-    regions_rendered.append(cells_in_region)
     scene.add(cells_in_region)
+    regions_rendered.append(cells_in_region)
     scene.add_silhouette(region, lw=3)
 
 

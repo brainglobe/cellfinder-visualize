@@ -139,60 +139,61 @@ def adjust_bar_width(ax, new_value):
 
 
 def plot_cellfinder_bar_summary(
-    experiment_filepath, plotting_keys, reference_structure_key, output_directory
+    experiment_filepaths, plotting_keys, reference_structure_key, output_directory
 ):
-    h_fig, axes_dict = make_figure(default_label_positions,
-                                   default_axis_positions,
-                                   normal_axes=("a", "b", "c", "d"),
-                                   track_axes=None,
-    )
-    # all_samples = []
-    # for experiment_filepath in experiment_filepaths:
-    #     experiment_filepath = pathlib.Path(experiment_filepath)
-    #     single_sample_df = get_cellfinder_bar_data(
-    #         experiment_filepath, plotting_keys, reference_structure_key, experiment_filepath.stem
-    #     )
-    #     all_samples.append(single_sample_df)
-    single_sample_df = get_cellfinder_bar_data(
-                 experiment_filepath, plotting_keys, reference_structure_key, pathlib.Path(experiment_filepath).stem
-            )
-    #main_df = pd.concat(all_samples)
-
-    metrics = [
-        "n_cells_in_region",
-        "percentage",
-        "cells_per_mm3",
-        "percent_of_reference_region",
-    ]
-    for metric, ax in zip(metrics, axes_dict.values()):
-        plt.sca(ax)
-
-        sns.barplot(data=single_sample_df, x="region", y=metric, color='k')
-        plt.xlim([-1, len(plotting_keys)])
-        plt.xticks(rotation=45)
-        if output_directory is not None:
-            save_output(
-                h_fig,
-                metric,
-                output_directory,
-                reference_structure_key,
-                single_sample_df,
-            )
-
-        single_sample_df = single_sample_df.sort_values(
-            "n_cells_in_region", ascending=False
+    for experiment_filepath in experiment_filepaths:
+        h_fig, axes_dict = make_figure(default_label_positions,
+                                       default_axis_positions,
+                                       normal_axes=("a", "b", "c", "d"),
+                                       track_axes=None,
         )
-        single_sample_df["percentage"] = single_sample_df["percentage"]
-        single_sample_df["percentage"] = single_sample_df["percentage"].round(2)
-        single_sample_df["cells_per_mm3"] = single_sample_df["cells_per_mm3"].round(1)
-        single_sample_df["n_cells_in_region"] = single_sample_df[
-            "n_cells_in_region"
-        ].astype(int)
-        df2 = single_sample_df[
-            ["region", "n_cells_in_region", "percentage", "cells_per_mm3"]
+        # all_samples = []
+        # for experiment_filepath in experiment_filepaths:
+        #     experiment_filepath = pathlib.Path(experiment_filepath)
+        #     single_sample_df = get_cellfinder_bar_data(
+        #         experiment_filepath, plotting_keys, reference_structure_key, experiment_filepath.stem
+        #     )
+        #     all_samples.append(single_sample_df)
+        single_sample_df = get_cellfinder_bar_data(
+                     experiment_filepath, plotting_keys, reference_structure_key, pathlib.Path(experiment_filepath).stem
+                )
+        #main_df = pd.concat(all_samples)
+
+        metrics = [
+            "n_cells_in_region",
+            "percentage",
+            "cells_per_mm3",
+            "percent_of_reference_region",
         ]
-        print(df2.to_latex())
-    plt.show()
+        for metric, ax in zip(metrics, axes_dict.values()):
+            plt.sca(ax)
+
+            sns.barplot(data=single_sample_df, x="region", y=metric, color='k')
+            plt.xlim([-1, len(plotting_keys)])
+            plt.xticks(rotation=45)
+            if output_directory is not None:
+                save_output(
+                    h_fig,
+                    metric,
+                    output_directory,
+                    reference_structure_key,
+                    single_sample_df,
+                )
+
+            single_sample_df = single_sample_df.sort_values(
+                "n_cells_in_region", ascending=False
+            )
+            single_sample_df["percentage"] = single_sample_df["percentage"]
+            single_sample_df["percentage"] = single_sample_df["percentage"].round(2)
+            single_sample_df["cells_per_mm3"] = single_sample_df["cells_per_mm3"].round(1)
+            single_sample_df["n_cells_in_region"] = single_sample_df[
+                "n_cells_in_region"
+            ].astype(int)
+            df2 = single_sample_df[
+                ["region", "n_cells_in_region", "percentage", "cells_per_mm3"]
+            ]
+            print(df2.to_latex())
+        plt.show()
 
 
 def save_output(
