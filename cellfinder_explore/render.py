@@ -2,7 +2,7 @@ import brainrender
 from brainrender import Scene
 import numpy as np
 
-from cellfinder_explore.region_groupings import reference_structures_to_render
+from cellfinder_explore.region_groupings import reference_structures_to_render, colors
 from cellfinder_explore.rendering_functions import render_cells_in_regions, render_regions, highlight_layer, \
     render_cells_in_region, remove_unwanted_hemisphere, slice_coronal_volume
 
@@ -19,23 +19,12 @@ def render_areas(
     slice_root=False,
     highlight_subregion='6',
     downsample_factor=5,
+    colors=colors,
 
 ):
+
     brainrender.SHADER_STYLE = "cartoon"
 
-    #_colors = ["#9b59b6", "#3498db", "#2ecc71", "#e74c3c", "#fdb462ff", "y"] * 10
-    _colors = [
-        "# e41a1c",
-        "# 377eb8",
-        "# 4daf4a",
-        "# 984ea3",
-        "# ff7f00",
-        "# ffff33",
-        "# a65628",
-        "# f781bf",
-        "# 999999",
-
-              ] * 10
     regions_rendered = []
     scene = Scene(title="labelled cells", root=root)
     all_samples_cells = []
@@ -50,9 +39,9 @@ def render_areas(
         highlight_layer(highlight_subregion, region_name, regions_rendered, scene, hemisphere)
 
     if not filter_cells_by_structure:
-        for cells, color in zip(all_samples_cells, _colors):
+        for cells, color in zip(all_samples_cells, colors):
             render_cells_in_region(cells, scene.root, regions_rendered, scene, color=color)
-        regions = render_regions(_colors, region_keys, scene, hemisphere=hemisphere)
+        regions = render_regions(colors, region_keys, scene, hemisphere=hemisphere)
         regions_rendered.extend(regions)
 
     else:
@@ -62,10 +51,10 @@ def render_areas(
                 reg = scene.add_brain_region(k, color="grey", alpha=0.3, hemisphere=hemisphere)
                 regions_rendered.append(reg)
 
-        regions = render_regions(_colors, region_keys, scene, hemisphere)
+        regions = render_regions(colors, region_keys, scene, hemisphere)
         regions_rendered.extend(regions)
 
-        for cells, color in zip(all_samples_cells, _colors):
+        for cells, color in zip(all_samples_cells, colors):
             regions_rendered = render_cells_in_regions(cells, regions, regions_rendered, scene, color=color)
 
     if hemisphere != 'both':

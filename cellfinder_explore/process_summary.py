@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 from makefig.config import default_label_positions, default_axis_positions, default_normal_axes, default_track_axes
 from makefig.construct_figure import make_figure
 
+from cellfinder_explore.region_groupings import colors_palette
+
 path_to_structures = "~/.brainglobe/allen_mouse_10um_v1.2/structures.csv"
 structures_df = pd.read_csv(path_to_structures)
 
@@ -142,7 +144,7 @@ def adjust_bar_width(ax, new_value):
 
 
 def plot_cellfinder_bar_summary(
-    experiment_filepaths, plotting_keys, reference_structure_key, output_directory,lateralisation
+    experiment_filepaths, plotting_keys, reference_structure_key, output_directory, lateralisation
 ):
     for experiment_filepath in experiment_filepaths:
         h_fig, axes_dict = make_figure(default_label_positions,
@@ -161,13 +163,14 @@ def plot_cellfinder_bar_summary(
             "cells_per_mm3",
             "percent_of_reference_region",
         ]
+
         single_sample_df['percent_reference_labels'] = single_sample_df['region'] + ' / ' + single_sample_df['reference_regions']
         for metric, ax in zip(metrics, axes_dict.values()):
             plt.sca(ax)
             if metric == "percent_of_reference_region":
-                sns.barplot(data=single_sample_df, x="percent_reference_labels", y=metric, color='k')
+                sns.barplot(data=single_sample_df, x="percent_reference_labels", y=metric, palette=colors_palette)
             else:
-                sns.barplot(data=single_sample_df, x="region", y=metric, color='k')
+                sns.barplot(data=single_sample_df, x="region", y=metric, palette=colors_palette)
             plt.xlim([-1, len(plotting_keys)])
             plt.xticks(rotation=45)
             if output_directory is not None:
@@ -179,9 +182,9 @@ def plot_cellfinder_bar_summary(
                     single_sample_df,
                 )
 
-            single_sample_df = single_sample_df.sort_values(
-                "n_cells_in_region", ascending=False
-            )
+            # single_sample_df = single_sample_df.sort_values(
+            #     "n_cells_in_region", ascending=False
+            # )
             single_sample_df["percentage"] = single_sample_df["percentage"]
             single_sample_df["percentage"] = single_sample_df["percentage"].round(2)
             single_sample_df["cells_per_mm3"] = single_sample_df["cells_per_mm3"].round(1)
