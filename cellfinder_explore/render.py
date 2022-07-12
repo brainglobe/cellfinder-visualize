@@ -19,10 +19,23 @@ def render_areas(
     slice_root=False,
     highlight_subregion='6',
     downsample_factor=5,
+
 ):
     brainrender.SHADER_STYLE = "cartoon"
 
-    _colors = ["#9b59b6", "#3498db", "#2ecc71", "#e74c3c", "#fdb462ff", "y"] * 10
+    #_colors = ["#9b59b6", "#3498db", "#2ecc71", "#e74c3c", "#fdb462ff", "y"] * 10
+    _colors = [
+        "# e41a1c",
+        "# 377eb8",
+        "# 4daf4a",
+        "# 984ea3",
+        "# ff7f00",
+        "# ffff33",
+        "# a65628",
+        "# f781bf",
+        "# 999999",
+
+              ] * 10
     regions_rendered = []
     scene = Scene(title="labelled cells", root=root)
     all_samples_cells = []
@@ -50,14 +63,17 @@ def render_areas(
                 regions_rendered.append(reg)
 
         regions = render_regions(_colors, region_keys, scene, hemisphere)
+        regions_rendered.extend(regions)
+
         for cells, color in zip(all_samples_cells, _colors):
-            render_cells_in_regions(cells, regions, regions_rendered, scene, color=color)
+            regions_rendered = render_cells_in_regions(cells, regions, regions_rendered, scene, color=color)
+
+    if hemisphere != 'both':
+        remove_unwanted_hemisphere(hemisphere, regions_rendered, scene)
 
     if coronal_slice is not None:
+        regions_rendered.append(scene.root)
         slice_coronal_volume(coronal_slice, regions_rendered, scene, slice_thickness)
-
-    elif hemisphere != 'both':
-        remove_unwanted_hemisphere(hemisphere, regions_rendered, scene)
     scene.render()
 
 

@@ -7,14 +7,15 @@ from cellfinder_explore.process_summary import get_all_children
 def render_cells_in_regions(cells, regions, regions_rendered, scene,color):
     for region in regions:
         if region is not None:
-            render_cells_in_region(cells, region, regions_rendered, scene,color)
+            regions_rendered = render_cells_in_region(cells, region, regions_rendered, scene,color)
+    return regions_rendered
 
 
-def render_regions(_colors, region_keys, scene, hemisphere):
+def render_regions(_colors, region_keys, scene, hemisphere, alpha=0.2):
     regions = []
 
     for region_name, color in zip(region_keys, _colors):
-        region = scene.add_brain_region(region_name, color=color, alpha=0.3, hemisphere=hemisphere)
+        region = scene.add_brain_region(region_name, color=color, alpha=alpha, hemisphere=hemisphere)
         scene.add_silhouette(region, lw=3)
         regions.append(region)
     return regions
@@ -35,8 +36,8 @@ def highlight_layer(highlight_substructure_key, region_name, regions_rendered, s
 
 
 def add_substructure_region(hemisphere, k, regions_rendered, scene):
-    r = scene.add_brain_region(k, color='w', alpha=0.1, hemisphere=hemisphere)
-    scene.add_silhouette(r, color='b', lw=1)
+    r = scene.add_brain_region(k, color='w', alpha=0.3, hemisphere=hemisphere)
+    scene.add_silhouette(r, color='r', lw=2)
     regions_rendered.append(r)
 
 
@@ -48,6 +49,7 @@ def render_cells_in_region(cells, region, regions_rendered, scene, color):
     scene.add(cells_in_region)
     regions_rendered.append(cells_in_region)
     scene.add_silhouette(region, lw=3)
+    return regions_rendered
 
 
 def remove_unwanted_hemisphere(lateralisation, regions_rendered, scene):
