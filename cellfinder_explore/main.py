@@ -41,7 +41,7 @@ def analyse(experiment_dir,
                 downsample_factor=downsample_factor,
                 highlight_subregion=highlight_subregion,
             )
-
+        plt.show()
 
 def main():
     fire.Fire(analyse)
