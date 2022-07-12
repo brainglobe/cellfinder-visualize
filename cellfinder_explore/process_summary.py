@@ -102,16 +102,19 @@ def get_cellfinder_bar_data(experiment_filepath, plotting_keys, reference_key, s
     totals = []
     region_volumes = []
     reference_counts = []
+    reference_keys = []
 
     for k, ref_k in zip(plotting_keys, [reference_key] * len(plotting_keys)):
-        n_cells_in_region, region_volume = get_n_cells_in_region(df_results, k)
-        n_cells_in_reference, _ = get_n_cells_in_region(df_results, ref_k, distance=0)
+        n_cells_in_region, region_volume = get_n_cells_in_region(df_results, k, lateralisation=lateralisation)
+        n_cells_in_reference, _ = get_n_cells_in_region(df_results, ref_k, distance=0, lateralisation=lateralisation)
         reference_counts.append(n_cells_in_reference)
+        reference_keys.append(ref_k)
         region_volumes.append(region_volume)
         totals.append(n_cells_in_region)
 
     df_dict.setdefault("n_cells_in_region", totals)
-    df_dict.setdefault("n_cells_in_reference_region", reference_counts)
+    df_dict.setdefault(f"n_cells_in_reference_region", reference_counts)
+    df_dict.setdefault(f"reference_regions", reference_keys)
     df_dict.setdefault(
         "percent_of_reference_region",
         np.array(totals) / np.array(reference_counts) * 100,
@@ -139,7 +142,7 @@ def adjust_bar_width(ax, new_value):
 
 
 def plot_cellfinder_bar_summary(
-    experiment_filepaths, plotting_keys, reference_structure_key, output_directory
+    experiment_filepaths, plotting_keys, reference_structure_key, output_directory,lateralisation
 ):
     for experiment_filepath in experiment_filepaths:
         h_fig, axes_dict = make_figure(default_label_positions,
@@ -147,17 +150,10 @@ def plot_cellfinder_bar_summary(
                                        normal_axes=("a", "b", "c", "d"),
                                        track_axes=None,
         )
-        # all_samples = []
-        # for experiment_filepath in experiment_filepaths:
-        #     experiment_filepath = pathlib.Path(experiment_filepath)
-        #     single_sample_df = get_cellfinder_bar_data(
-        #         experiment_filepath, plotting_keys, reference_structure_key, experiment_filepath.stem
-        #     )
-        #     all_samples.append(single_sample_df)
+
         single_sample_df = get_cellfinder_bar_data(
-                     experiment_filepath, plotting_keys, reference_structure_key, pathlib.Path(experiment_filepath).stem
+                     experiment_filepath, plotting_keys, reference_structure_key, pathlib.Path(experiment_filepath).stem, lateralisation=lateralisation
                 )
-        #main_df = pd.concat(all_samples)
 
         metrics = [
             "n_cells_in_region",
@@ -165,10 +161,13 @@ def plot_cellfinder_bar_summary(
             "cells_per_mm3",
             "percent_of_reference_region",
         ]
+        single_sample_df['percent_reference_labels'] = single_sample_df['region'] + ' / ' + single_sample_df['reference_regions']
         for metric, ax in zip(metrics, axes_dict.values()):
             plt.sca(ax)
-
-            sns.barplot(data=single_sample_df, x="region", y=metric, color='k')
+            if metric == "percent_of_reference_region":
+                sns.barplot(data=single_sample_df, x="percent_reference_labels", y=metric, color='k')
+            else:
+                sns.barplot(data=single_sample_df, x="region", y=metric, color='k')
             plt.xlim([-1, len(plotting_keys)])
             plt.xticks(rotation=45)
             if output_directory is not None:
