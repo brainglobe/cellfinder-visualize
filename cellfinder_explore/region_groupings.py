@@ -37,3 +37,11 @@ colors = [
           ]
 
 colors_palette = sns.set_palette(sns.color_palette(colors))
+
+camera = {
+     'pos': (-15854, -61680, 23155),
+     'viewup': (1, 0, -1),
+     'clippingRange': (57281, 96305),
+   }
+
+zoom = 1.5

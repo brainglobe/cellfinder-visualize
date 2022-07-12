@@ -2,7 +2,7 @@ import brainrender
 from brainrender import Scene
 import numpy as np
 
-from cellfinder_explore.region_groupings import reference_structures_to_render, colors
+from cellfinder_explore.region_groupings import reference_structures_to_render, colors, camera, zoom
 from cellfinder_explore.rendering_functions import render_cells_in_regions, render_regions, highlight_layer, \
     render_cells_in_region, remove_unwanted_hemisphere, slice_coronal_volume
 
@@ -63,6 +63,8 @@ def render_areas(
     if coronal_slice is not None:
         regions_rendered.append(scene.root)
         slice_coronal_volume(coronal_slice, regions_rendered, scene, slice_thickness)
-    scene.render()
+
+
+    scene.render(camera=camera, zoom=zoom)
 
 
