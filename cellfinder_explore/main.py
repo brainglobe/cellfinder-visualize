@@ -22,6 +22,7 @@ def analyse(experiment_dir,
     experiment_dir = pathlib.Path(experiment_dir)
     points_files = list(experiment_dir.rglob('points*'))
     summary_files = list(experiment_dir.rglob('summary*'))
+    additional_obj_files = list(experiment_dir.rglob('*.obj'))
 
     for reference_region, region_list in region_dict.items():
         plot_cellfinder_bar_summary(
@@ -40,6 +41,7 @@ def analyse(experiment_dir,
                 slice_root=slice_root,
                 downsample_factor=downsample_factor,
                 highlight_subregion=highlight_subregion,
+                additional_obj_files=additional_obj_files,
             )
 
 

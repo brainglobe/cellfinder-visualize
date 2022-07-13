@@ -52,3 +52,5 @@ camera = {
    }
 
 zoom = 1.5
+
+additional_obj_color = 'k'
