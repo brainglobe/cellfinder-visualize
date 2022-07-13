@@ -40,3 +40,8 @@ Together with a brainrender of the samples and target regions:
 ![Screenshot_2022-07-13_11-58-12](https://user-images.githubusercontent.com/12136220/178718223-57daac92-5453-4680-9a22-ef93bc121430.png)
 ![Screenshot_2022-07-13_11-59-59](https://user-images.githubusercontent.com/12136220/178718515-05c63fa5-a3ec-4579-9dfb-35b18aab8a09.png)
 
+Any .obj files in the directory hierarchy will be automatically displayed e.g.:
+
+![Screenshot_2022-07-13_13-38-29](https://user-images.githubusercontent.com/12136220/178736646-f10231e6-0855-4e3c-bb78-c65cb5cee446.png)
+
+
