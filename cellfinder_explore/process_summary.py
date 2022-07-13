@@ -6,7 +6,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from makefig.config import default_label_positions, default_axis_positions, default_normal_axes, default_track_axes
+from makefig.config import default_label_positions, default_axis_positions
 from makefig.construct_figure import make_figure
 
 from cellfinder_explore.region_groupings import colors_palette, metrics_and_axis_labels
@@ -147,8 +147,7 @@ def plot_pooled_experiments(all_dfs, reference_structure_key, output_directory):
 
     h_fig, axes_dict = make_figure(default_label_positions,
                                    default_axis_positions,
-                                   normal_axes=("a", "b", "c", "d"),
-                                   track_axes=None,
+                                   axes=("A", "B", "C", "D"),
                                    )
 
     all_samples_df = pd.concat(all_dfs)
@@ -194,8 +193,7 @@ def plot_cellfinder_bar_summary(
     for experiment_filepath in experiment_filepaths:
         h_fig, axes_dict = make_figure(default_label_positions,
                                        default_axis_positions,
-                                       normal_axes=("a", "b", "c", "d"),
-                                       track_axes=None,
+                                       axes=("A", "B", "C", "D"),
         )
 
         single_sample_df = get_cellfinder_bar_data(
