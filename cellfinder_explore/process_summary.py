@@ -211,9 +211,11 @@ def plot_cellfinder_bar_summary(
 
             if metric[0] == "percent_of_reference_region":
                 sns.barplot(data=single_sample_df, x="percent_reference_labels", y=metric[0], palette=colors_palette)
+                plt.xlabel('Region / Reference Region')
 
             else:
                 sns.barplot(data=single_sample_df, x="region", y=metric[0], palette=colors_palette)
+                plt.xlabel('Region')
 
             plt.xlim([-1, len(plotting_keys)])
             plt.xticks(rotation=45)
