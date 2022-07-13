@@ -44,4 +44,6 @@ Any .obj files in the directory hierarchy will be automatically displayed e.g.:
 
 ![Screenshot_2022-07-13_13-38-29](https://user-images.githubusercontent.com/12136220/178736646-f10231e6-0855-4e3c-bb78-c65cb5cee446.png)
 
+![Screenshot_2022-07-13_13-54-35](https://user-images.githubusercontent.com/12136220/178738417-a8cf975d-5437-425f-8527-e1bab7c21725.png)
+
 
