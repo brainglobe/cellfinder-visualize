@@ -21,16 +21,16 @@ Simply run from the commandline as follows
 
 ```explore_sample --experiment_directory path/to/all/samples --output_directory path/to/save/output --coronal_slice_position None --slice_thickness 4000 --root True --show_reference_structures True --filter_cells_by_structure True downsample_factor 10```
 
-![example_readme1](https://user-images.githubusercontent.com/12136220/159718609-3936a211-4a8b-4ccd-a1fd-4d709c0c7202.png)
+The end result should be bar plots per sample indicating the counts and percentages of cells in each region:
 
-![example_readme](https://user-images.githubusercontent.com/12136220/159717814-c0e967cb-6e23-4297-8313-8cdc8e34fff0.png)
+![CTX_example_sl](https://user-images.githubusercontent.com/12136220/178689165-a14f9960-76e9-4044-8d47-91e353c8ac48.png)
 
-![example_readme3](https://user-images.githubusercontent.com/12136220/159720896-135113c6-a46d-4240-8545-27fbe8cad504.png)
+![CTX_example_sw](https://user-images.githubusercontent.com/12136220/178689187-d13dac1f-6a09-445e-962f-a4bbd00dc565.png)
 
-![example_readme4](https://user-images.githubusercontent.com/12136220/159721409-981546df-332c-41f2-a14b-813b982ed513.png)
+And also a pooled plot indicating the averages for all samples and the individual points:
 
-![example_readme5](https://user-images.githubusercontent.com/12136220/159723470-bdd02233-3200-4370-a13f-8737896bc579.png)
+![CTX_all_samples](https://user-images.githubusercontent.com/12136220/178689170-d277724a-0ed2-43ac-9fa6-541b5f97a68b.png)
 
-![example_readme6](https://user-images.githubusercontent.com/12136220/159723484-ace4024b-fd6a-4500-9a66-e846fb76214c.png)
+Together with a brainrender of the samples and target regions:
 
-![example_readme7](https://user-images.githubusercontent.com/12136220/159724475-2722f311-633a-4c45-baed-14c04f9a6212.png)
+![image](https://user-images.githubusercontent.com/12136220/178687766-f50dccf7-57ab-4fa2-b75a-d9534479f930.png)
