@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 from makefig.config import default_label_positions, default_axis_positions, default_normal_axes, default_track_axes
 from makefig.construct_figure import make_figure
 
+from cellfinder_explore.region_groupings import colors_palette, metrics_and_axis_labels
+
 path_to_structures = "~/.brainglobe/allen_mouse_10um_v1.2/structures.csv"
 structures_df = pd.read_csv(path_to_structures)
 
@@ -141,9 +143,54 @@ def adjust_bar_width(ax, new_value):
         patch.set_x(patch.get_x() + diff * 0.5)
 
 
+def plot_pooled_experiments(all_dfs, reference_structure_key, output_directory):
+
+    h_fig, axes_dict = make_figure(default_label_positions,
+                                   default_axis_positions,
+                                   normal_axes=("a", "b", "c", "d"),
+                                   track_axes=None,
+                                   )
+
+    all_samples_df = pd.concat(all_dfs)
+    for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
+        plt.sca(ax)
+        average_counts_df = all_samples_df.groupby('region').agg(avg=(metric[0], 'mean')).reset_index()
+        region_labels = all_samples_df['region'].unique()
+
+        for i, region_label in enumerate(region_labels):
+            values = all_samples_df.query(f'region == "{region_label}"')[metric[0]]
+            avg = average_counts_df.query(f'region == "{region_label}"')['avg'].values[0]
+            plt.plot([i] * len(values), values, 'o')
+            plt.hlines(avg, i-0.2, i+0.2, color='k')
+        plt.xlim([-1, len(region_labels)])
+
+        plt.ylabel(metric[1])
+
+        if metric[0] == "percent_of_reference_region":
+            labels = [label + ' / ' + reference_structure_key for label in region_labels]
+            plt.xticks(range(len(region_labels)),
+                       labels=labels,
+                       rotation=45)
+            plt.xlabel('Region / Reference Region')
+
+        else:
+            plt.xticks(range(len(region_labels)), labels=region_labels,rotation=45)
+            plt.xlabel('Region')
+    if output_directory is not None:
+        save_output(
+            h_fig,
+            output_directory,
+            reference_structure_key,
+            all_samples_df,
+            fig_type='all_samples',
+        )
+    plt.show()
+
+
 def plot_cellfinder_bar_summary(
-    experiment_filepaths, plotting_keys, reference_structure_key, output_directory,lateralisation
+    experiment_filepaths, plotting_keys, reference_structure_key, output_directory, lateralisation
 ):
+    all_dfs =[]
     for experiment_filepath in experiment_filepaths:
         h_fig, axes_dict = make_figure(default_label_positions,
                                        default_axis_positions,
@@ -152,52 +199,59 @@ def plot_cellfinder_bar_summary(
         )
 
         single_sample_df = get_cellfinder_bar_data(
-                     experiment_filepath, plotting_keys, reference_structure_key, pathlib.Path(experiment_filepath).stem, lateralisation=lateralisation
+            experiment_filepath,
+            plotting_keys,
+            reference_structure_key,
+            pathlib.Path(experiment_filepath).stem,
+            lateralisation=lateralisation
                 )
 
-        metrics = [
-            "n_cells_in_region",
-            "percentage",
-            "cells_per_mm3",
-            "percent_of_reference_region",
-        ]
         single_sample_df['percent_reference_labels'] = single_sample_df['region'] + ' / ' + single_sample_df['reference_regions']
-        for metric, ax in zip(metrics, axes_dict.values()):
+        all_dfs.append(single_sample_df)
+        for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
             plt.sca(ax)
-            if metric == "percent_of_reference_region":
-                sns.barplot(data=single_sample_df, x="percent_reference_labels", y=metric, color='k')
+
+            if metric[0] == "percent_of_reference_region":
+                sns.barplot(data=single_sample_df, x="percent_reference_labels", y=metric[0], palette=colors_palette)
+
             else:
-                sns.barplot(data=single_sample_df, x="region", y=metric, color='k')
+                sns.barplot(data=single_sample_df, x="region", y=metric[0], palette=colors_palette)
+
             plt.xlim([-1, len(plotting_keys)])
             plt.xticks(rotation=45)
-            if output_directory is not None:
-                save_output(
-                    h_fig,
-                    metric,
-                    output_directory,
-                    reference_structure_key,
-                    single_sample_df,
-                )
+            plt.ylabel(metric[1])
 
-            single_sample_df = single_sample_df.sort_values(
-                "n_cells_in_region", ascending=False
+        if output_directory is not None:
+            save_output(
+                h_fig,
+                output_directory,
+                reference_structure_key,
+                single_sample_df,
+                fig_type=f'{experiment_filepath.parent.stem}',
+
             )
-            single_sample_df["percentage"] = single_sample_df["percentage"]
-            single_sample_df["percentage"] = single_sample_df["percentage"].round(2)
-            single_sample_df["cells_per_mm3"] = single_sample_df["cells_per_mm3"].round(1)
-            single_sample_df["n_cells_in_region"] = single_sample_df[
-                "n_cells_in_region"
-            ].astype(int)
-            df2 = single_sample_df[
-                ["region", "n_cells_in_region", "percentage", "cells_per_mm3"]
-            ]
-            print(df2.to_latex())
+
+        print_latex_table(single_sample_df)
         plt.show()
+    plot_pooled_experiments(all_dfs, reference_structure_key, output_directory)
+
+
+def print_latex_table(single_sample_df):
+    single_sample_df["percentage"] = single_sample_df["percentage"]
+    single_sample_df["percentage"] = single_sample_df["percentage"].round(2)
+    single_sample_df["cells_per_mm3"] = single_sample_df["cells_per_mm3"].round(1)
+    single_sample_df["n_cells_in_region"] = single_sample_df[
+        "n_cells_in_region"
+    ].astype(int)
+    df2 = single_sample_df[
+        ["region", "n_cells_in_region", "percentage", "cells_per_mm3"]
+    ]
+    print(df2.to_latex())
 
 
 def save_output(
-    fig, metric, output_directory, reference_structure_key, single_brain_df
+    fig, output_directory, reference_structure_key, single_brain_df, fig_type=''
 ):
     output_directory = pathlib.Path(output_directory)
-    fig.savefig(output_directory / f"{reference_structure_key}_{metric}_barplot.png")
-    single_brain_df.to_csv(output_directory / f"{reference_structure_key}_{metric}.csv")
+    fig.savefig(output_directory / f"{reference_structure_key}_{fig_type}.png")
+    single_brain_df.to_csv(output_directory / f"{reference_structure_key}_{fig_type}.csv")
