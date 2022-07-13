@@ -36,6 +36,13 @@ colors = [
 
           ]
 
+metrics_and_axis_labels = {
+    "n_cells_in_region": "Cells ( Number )",
+    "percentage": "Cells ( % )",
+    "cells_per_mm3": "Cell density ( cells / mm3 )",
+    "percent_of_reference_region": "Cells ( % of ref )",
+}
+
 colors_palette = sns.set_palette(sns.color_palette(colors))
 
 camera = {
