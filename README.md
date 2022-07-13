@@ -7,7 +7,7 @@
 
 ```conda activate cellfinder_explore```
 
-```git clone https://github.com/stephenlenzi/cellfinder-explore```
+```git clone https://github.com/SainsburyWellcomeCentre/cellfinder-explore.git```
 
 ```cd cellfinder-explore```
 
@@ -20,6 +20,7 @@ Simply run from the commandline as follows
 ```conda activate cellfinder_explore```
 
 ```explore_sample --experiment_directory path/to/all/samples --output_directory path/to/save/output --coronal_slice_position None --slice_thickness 4000 --root True --show_reference_structures True --filter_cells_by_structure False downsample_factor 10 --hemisphere left --slice_root True```
+
 
 The end result should be bar plots per sample indicating the counts and percentages of cells in each region:
 
