@@ -143,7 +143,7 @@ def adjust_bar_width(ax, new_value):
         patch.set_x(patch.get_x() + diff * 0.5)
 
 
-def plot_pooled_experiments(all_dfs, reference_structure_key):
+def plot_pooled_experiments(all_dfs, reference_structure_key, output_directory):
 
     h_fig, axes_dict = make_figure(default_label_positions,
                                    default_axis_positions,
@@ -151,9 +151,9 @@ def plot_pooled_experiments(all_dfs, reference_structure_key):
                                    track_axes=None,
                                    )
 
+    all_samples_df = pd.concat(all_dfs)
     for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
         plt.sca(ax)
-        all_samples_df = pd.concat(all_dfs)
         average_counts_df = all_samples_df.groupby('region').agg(avg=(metric[0], 'mean')).reset_index()
         region_labels = all_samples_df['region'].unique()
 
@@ -176,9 +176,15 @@ def plot_pooled_experiments(all_dfs, reference_structure_key):
         else:
             plt.xticks(range(len(region_labels)), labels=region_labels,rotation=45)
             plt.xlabel('Region')
-
+    if output_directory is not None:
+        save_output(
+            h_fig,
+            output_directory,
+            reference_structure_key,
+            all_samples_df,
+            fig_type='all_samples',
+        )
     plt.show()
-
 
 
 def plot_cellfinder_bar_summary(
@@ -200,7 +206,6 @@ def plot_cellfinder_bar_summary(
             lateralisation=lateralisation
                 )
 
-
         single_sample_df['percent_reference_labels'] = single_sample_df['region'] + ' / ' + single_sample_df['reference_regions']
         all_dfs.append(single_sample_df)
         for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
@@ -215,18 +220,20 @@ def plot_cellfinder_bar_summary(
             plt.xlim([-1, len(plotting_keys)])
             plt.xticks(rotation=45)
             plt.ylabel(metric[1])
-            if output_directory is not None:
-                save_output(
-                    h_fig,
-                    metric[0],
-                    output_directory,
-                    reference_structure_key,
-                    single_sample_df,
-                )
 
-            print_latex_table(single_sample_df)
+        if output_directory is not None:
+            save_output(
+                h_fig,
+                output_directory,
+                reference_structure_key,
+                single_sample_df,
+                fig_type=f'{experiment_filepath.parent.stem}',
+
+            )
+
+        print_latex_table(single_sample_df)
         plt.show()
-    plot_pooled_experiments(all_dfs, reference_structure_key)
+    plot_pooled_experiments(all_dfs, reference_structure_key, output_directory)
 
 
 def print_latex_table(single_sample_df):
@@ -243,8 +250,8 @@ def print_latex_table(single_sample_df):
 
 
 def save_output(
-    fig, metric, output_directory, reference_structure_key, single_brain_df
+    fig, output_directory, reference_structure_key, single_brain_df, fig_type=''
 ):
     output_directory = pathlib.Path(output_directory)
-    fig.savefig(output_directory / f"{reference_structure_key}_{metric}_barplot.png")
-    single_brain_df.to_csv(output_directory / f"{reference_structure_key}_{metric}.csv")
+    fig.savefig(output_directory / f"{reference_structure_key}_{fig_type}.png")
+    single_brain_df.to_csv(output_directory / f"{reference_structure_key}_{fig_type}.csv")
