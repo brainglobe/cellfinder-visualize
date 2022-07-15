@@ -2,7 +2,7 @@ import brainrender
 from brainrender import Scene
 import numpy as np
 
-from cellfinder_explore.region_groupings import reference_structures_to_render, colors, camera, zoom, \
+from cellfinder_explore.region_groupings import reference_structures_to_render, camera, zoom, \
     additional_obj_color
 from cellfinder_explore.rendering_functions import render_cells_in_regions, render_regions, highlight_layer, \
     render_cells_in_region, remove_unwanted_hemisphere, slice_coronal_volume
@@ -11,6 +11,7 @@ from cellfinder_explore.rendering_functions import render_cells_in_regions, rend
 def render_areas(
     points_files,
     region_keys,
+    colors,
     additional_obj_files=None,
     filter_cells_by_structure=False,
     coronal_slice=None,
@@ -21,7 +22,6 @@ def render_areas(
     slice_root=True,
     highlight_subregion='6',
     downsample_factor=10,
-    colors=colors,
 
 ):
 

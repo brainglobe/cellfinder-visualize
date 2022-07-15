@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from makefig.config import default_label_positions, default_axis_positions
 from makefig.construct_figure import make_figure
 
-from cellfinder_explore.region_groupings import colors_palette, metrics_and_axis_labels
+from cellfinder_explore.region_groupings import metrics_and_axis_labels
 
 path_to_structures = "~/.brainglobe/allen_mouse_10um_v1.2/structures.csv"
 structures_df = pd.read_csv(path_to_structures)
@@ -187,8 +187,11 @@ def plot_pooled_experiments(all_dfs, reference_structure_key, output_directory):
 
 
 def plot_cellfinder_bar_summary(
-    experiment_filepaths, plotting_keys, reference_structure_key, output_directory, lateralisation
+    experiment_filepaths, plotting_keys, reference_structure_key, output_directory, lateralisation,colors
 ):
+
+    colors_palette = sns.set_palette(sns.color_palette(colors))
+
     all_dfs =[]
     for experiment_filepath in experiment_filepaths:
         h_fig, axes_dict = make_figure(default_label_positions,

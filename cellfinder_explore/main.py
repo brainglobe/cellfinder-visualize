@@ -29,7 +29,7 @@ def analyse(experiment_dir=pathlib.Path.home(),
     additional_obj_files = list(experiment_dir.rglob('*.obj'))
 
     plot_cellfinder_bar_summary(
-        summary_files, region_list, reference_region, output_dir, lateralisation=hemisphere,
+        summary_files, region_list, reference_region, output_dir, lateralisation=hemisphere,colors=colors,
     )
     if experiment_dir is not None:
         render_areas(
