@@ -54,8 +54,8 @@ def analyse(experiment_dir=pathlib.Path.home(),
     :return:
     """
     experiment_dir = pathlib.Path(experiment_dir)
-    points_files = list(experiment_dir.rglob('points*'))
-    summary_files = list(experiment_dir.rglob('summary*'))
+    points_files = list(experiment_dir.rglob('points*.npy'))
+    summary_files = list(experiment_dir.rglob('summary*.csv'))
     additional_obj_files = list(experiment_dir.rglob('*.obj')) if load_additional_obj_files else None
 
     if barplots:
