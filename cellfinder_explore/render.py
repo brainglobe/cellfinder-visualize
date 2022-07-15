@@ -21,7 +21,7 @@ def render_areas(
     hemisphere='right',
     slice_root=True,
     highlight_subregion='6',
-    downsample_factor=10,
+    subsample_factor=10,
 
 ):
 
@@ -31,7 +31,7 @@ def render_areas(
     scene = Scene(title="labelled cells", root=root)
     all_samples_cells = []
     for points_file in points_files:
-        cells = np.load(points_file)[::downsample_factor]
+        cells = np.load(points_file)[::subsample_factor]
         all_samples_cells.append(cells)
 
     if slice_root:

@@ -24,11 +24,14 @@ def analyse(experiment_dir=pathlib.Path.home(),
             filter_cells_by_structure=False,
             hemisphere=Hemisphere.right,
             slice_root=True,
-            downsample_factor=10,
+            subsample_factor=10,
             highlight_subregion=5,
-            region_list= ["VISp", "VISpor","VISli","VISl","VISal","VISrl","VISam","VISpm","CP"],
-            colors= ["#e41a1c", "#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33","#a65628","#f781bf","#999999"],
-            reference_region ="CTX",
+            region_list=["VISp", "VISpor", "VISli", "VISl", "VISal", "VISrl", "VISam", "VISpm", "CP"],
+            colors=["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#ffff33", "#a65628", "#f781bf", "#999999"],
+            reference_region="CTX",
+            brainrender=True,
+            barplots=True,
+            load_additional_obj_files=True,
             ):
     """
 
@@ -53,12 +56,13 @@ def analyse(experiment_dir=pathlib.Path.home(),
     experiment_dir = pathlib.Path(experiment_dir)
     points_files = list(experiment_dir.rglob('points*'))
     summary_files = list(experiment_dir.rglob('summary*'))
-    additional_obj_files = list(experiment_dir.rglob('*.obj'))
+    additional_obj_files = list(experiment_dir.rglob('*.obj')) if load_additional_obj_files else None
 
-    plot_cellfinder_bar_summary(
-        summary_files, region_list, reference_region, output_dir, lateralisation=hemisphere,colors=colors,
-    )
-    if experiment_dir is not None:
+    if barplots:
+        plot_cellfinder_bar_summary(
+            summary_files, region_list, reference_region, output_dir, lateralisation=hemisphere,colors=colors,
+        )
+    if brainrender:
         render_areas(
             points_files,
             region_list,
@@ -70,7 +74,7 @@ def analyse(experiment_dir=pathlib.Path.home(),
             filter_cells_by_structure=filter_cells_by_structure,
             hemisphere=hemisphere,
             slice_root=slice_root,
-            downsample_factor=downsample_factor,
+            subsample_factor=subsample_factor,
             highlight_subregion=highlight_subregion,
             additional_obj_files=additional_obj_files,
         )
