@@ -159,7 +159,7 @@ def plot_pooled_experiments(all_dfs, reference_structure_key, output_directory):
         for i, region_label in enumerate(region_labels):
             values = all_samples_df.query(f'region == "{region_label}"')[metric[0]]
             avg = average_counts_df.query(f'region == "{region_label}"')['avg'].values[0]
-            plt.plot([i] * len(values), values, 'o')
+            plt.plot([i] * len(values), values, 'o', alpha=0.5)
             plt.hlines(avg, i-0.2, i+0.2, color='k')
         plt.xlim([-1, len(region_labels)])
 
