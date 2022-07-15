@@ -15,9 +15,9 @@ def analyse(experiment_dir=pathlib.Path.home(),
             root=True,
             show_reference_structures=True,
             filter_cells_by_structure=False,
-            hemisphere='left',
-            slice_root=False,
-            downsample_factor=5,
+            hemisphere='right',
+            slice_root=True,
+            downsample_factor=10,
             highlight_subregion=5,
             region_list= ["VISp", "VISpor","VISli","VISl","VISal","VISrl","VISam","VISpm","CP"],
             colors= ["#e41a1c", "#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33","#a65628","#f781bf","#999999"],
@@ -29,7 +29,7 @@ def analyse(experiment_dir=pathlib.Path.home(),
     additional_obj_files = list(experiment_dir.rglob('*.obj'))
 
     plot_cellfinder_bar_summary(
-        summary_files, region_list, reference_region, output_dir, lateralisation=hemisphere,colors=colors,
+        summary_files, region_list, reference_region, output_dir, lateralisation=hemisphere,
     )
     if experiment_dir is not None:
         render_areas(

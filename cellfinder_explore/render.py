@@ -17,10 +17,10 @@ def render_areas(
     slice_thickness=None,
     root=True,
     show_reference_structures=None,
-    hemisphere='left',
-    slice_root=False,
+    hemisphere='right',
+    slice_root=True,
     highlight_subregion='6',
-    downsample_factor=5,
+    downsample_factor=10,
     colors=colors,
 
 ):
@@ -59,15 +59,18 @@ def render_areas(
         for cells, color in zip(all_samples_cells, colors):
             regions_rendered = render_cells_in_regions(cells, regions, regions_rendered, scene, color=color)
 
+    if additional_obj_files is not None:
+        for fpath in additional_obj_files:
+            color = 'b' if "fiber" in str(fpath) else additional_obj_color
+            r = scene.add(fpath, color=color)
+            regions_rendered.append(r)
+
     if hemisphere != 'both':
         remove_unwanted_hemisphere(hemisphere, regions_rendered, scene)
 
     if coronal_slice is not None:
         regions_rendered.append(scene.root)
         slice_coronal_volume(coronal_slice, regions_rendered, scene, slice_thickness)
-
-    if additional_obj_files is not None:
-        [scene.add(obj, color=additional_obj_color) for obj in additional_obj_files]
 
     scene.render(camera=camera, zoom=zoom)
 
