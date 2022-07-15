@@ -21,6 +21,11 @@ Simply run from the commandline as follows
 
 ```explore_sample```
 
+This will open a GUI for selecting parameters
+
+![image](https://user-images.githubusercontent.com/12136220/179235778-3520e509-01da-46d0-8711-bf5bad588193.png)
+
+
 The end result should be bar plots per sample indicating the counts and percentages of cells in each region:
 
 ![CTX_example_sl](https://user-images.githubusercontent.com/12136220/178717584-1aa9ad34-5535-40d6-93c0-645a08ae3f71.png)
