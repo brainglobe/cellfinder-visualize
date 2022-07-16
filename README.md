@@ -9,6 +9,8 @@ The core aims are to provide:
  - Standardised publication quality plots of cell counts for different region sets
    - Easy toggling of regions of interest
    - Matching visualisations to quantifications
+   - Lateralised views
+   - Slice views
  - Statistical analysis
 
 ## Installation
