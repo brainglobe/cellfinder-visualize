@@ -1,5 +1,16 @@
 # Cellfinder-explore User Guide
 
+## About
+
+Cellfinder-explore is a tool for post-cellfinder data visualisation and analysis.
+The core aims are to provide:
+
+ - Publication quality visualisations of cellfinder experiments for multiple samples
+ - Standardised publication quality plots of cell counts for different region sets
+   - Easy toggling of regions of interest
+   - Matching visualisations to quantifications
+ - Statistical analysis
+
 ## Installation
 
 
