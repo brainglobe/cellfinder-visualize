@@ -11,7 +11,7 @@ The core aims are to provide:
    - Matching visualisations to quantifications
    - Lateralised views
    - Slice views
- - Statistical analysis
+ - Statistical analysis  (in progress)
 
 ## Installation
 
