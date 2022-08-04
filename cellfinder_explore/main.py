@@ -51,6 +51,7 @@ def analyse(experiment_dir=pathlib.Path.home(),
     :param reference_region: The region used to normalise cell counts to.
     :param brainrender: If True, will generate a brainrender view.
     :param barplots: If True, will generate barplots for the cell counts.
+    :param load_additional_obj_files: If True, any .obj files in the directory tree will be rendered.
     :return:
     """
     experiment_dir = pathlib.Path(experiment_dir)
@@ -60,7 +61,7 @@ def analyse(experiment_dir=pathlib.Path.home(),
 
     if barplots:
         plot_cellfinder_bar_summary(
-            summary_files, region_list, reference_region, output_dir, lateralisation=hemisphere,colors=colors,
+            summary_files, region_list, reference_region, output_dir, lateralisation=hemisphere, colors=colors,
         )
     if brainrender:
         render_areas(
