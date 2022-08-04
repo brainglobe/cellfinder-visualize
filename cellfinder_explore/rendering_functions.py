@@ -24,7 +24,7 @@ def render_regions(_colors, region_keys, scene, hemisphere, alpha=0.2):
 def highlight_layer(highlight_substructure_key, region_name, regions_rendered, scene, hemisphere):
     children = get_all_children(region_name)
 
-    if highlight_substructure_key is not None:
+    if highlight_substructure_key != 'all':
         for k in children:
             if k != region_name:
                 if str(highlight_substructure_key) in k:
