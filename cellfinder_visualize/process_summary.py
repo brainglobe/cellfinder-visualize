@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from makefig.config import default_label_positions, default_axis_positions
 from makefig.construct_figure import make_figure
 
-from cellfinder_explore.region_groupings import metrics_and_axis_labels
+from cellfinder_visualize.region_groupings import metrics_and_axis_labels
 
 path_to_structures = "~/.brainglobe/allen_mouse_10um_v1.2/structures.csv"
 structures_df = pd.read_csv(path_to_structures)

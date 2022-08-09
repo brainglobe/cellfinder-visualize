@@ -3,8 +3,8 @@ from enum import Enum
 
 import fire
 
-from cellfinder_explore.process_summary import plot_cellfinder_bar_summary
-from cellfinder_explore.render import render_areas
+from cellfinder_visualize.process_summary import plot_cellfinder_bar_summary
+from cellfinder_visualize.render import render_areas
 from magicgui import magicgui
 
 

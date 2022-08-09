@@ -2,9 +2,9 @@ import brainrender
 from brainrender import Scene
 import numpy as np
 
-from cellfinder_explore.region_groupings import reference_structures_to_render, camera, zoom, \
+from cellfinder_visualize.region_groupings import reference_structures_to_render, camera, zoom, \
     additional_obj_color
-from cellfinder_explore.rendering_functions import render_cells_in_regions, render_regions, highlight_layer, \
+from cellfinder_visualize.rendering_functions import render_cells_in_regions, render_regions, highlight_layer, \
     render_cells_in_region, remove_unwanted_hemisphere, slice_coronal_volume
 
 
