@@ -2,7 +2,7 @@
 
 ## About
 
-Cellfinder-explore is a tool for post-cellfinder data visualisation and analysis.
+`cellfinder-visualize` is a tool for post-cellfinder data visualisation and analysis.
 The core aims are to provide:
 
  - Publication quality visualisations of cellfinder experiments for multiple samples
@@ -12,6 +12,9 @@ The core aims are to provide:
    - Lateralised views
    - Slice views
  - Statistical analysis  (in progress)
+
+
+`cellfinder-visualize` is a tool developed by [Stephen Lenzi](https://github.com/stephenlenzi) in the [Margrie Lab](https://www.sainsburywellcome.org/web/groups/margrie-lab), generously supported by the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/web/).
 
 ## Installation
 
