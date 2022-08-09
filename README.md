@@ -2,7 +2,7 @@
 
 ## About
 
-Cellfinder-explore is a tool for post-cellfinder data visualisation and analysis.
+`cellfinder-visualize` is a tool for post-cellfinder data visualisation and analysis.
 The core aims are to provide:
 
  - Publication quality visualisations of cellfinder experiments for multiple samples
@@ -13,16 +13,21 @@ The core aims are to provide:
    - Slice views
  - Statistical analysis  (in progress)
 
+
+`cellfinder-visualize` is a tool developed by [Stephen Lenzi](https://github.com/stephenlenzi) in the [Margrie Lab](https://www.sainsburywellcome.org/web/groups/margrie-lab), generously supported by the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/web/).
+
+![Asset 1](https://user-images.githubusercontent.com/12136220/183618125-b1e60c25-0695-4040-979c-4b3afd3024c4.png)
+
 ## Installation
 
 
-```conda create -n cellfinder_explore python=3.8```
+```conda create -n  cellfinder-visualize python=3.8```
 
-```conda activate cellfinder_explore```
+```conda activate  cellfinder-visualize```
 
-```git clone https://github.com/SainsburyWellcomeCentre/cellfinder-explore.git```
+```git clone https://github.com/SainsburyWellcomeCentre/cellfinder-visualize.git```
 
-```cd cellfinder-explore```
+```cd cellfinder-visualize```
 
 ```pip install -e .```
 
@@ -30,7 +35,7 @@ The core aims are to provide:
 
 Simply run from the commandline as follows
 
-```conda activate cellfinder_explore```
+```conda activate  cellfinder-visualize```
 
 ```explore_sample```
 
