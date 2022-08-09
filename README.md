@@ -59,9 +59,6 @@ Together with a brainrender of the samples and target regions:
 
 <img src='https://user-images.githubusercontent.com/12136220/178687766-f50dccf7-57ab-4fa2-b75a-d9534479f930.png' width="400">
 
-![Screenshot_2022-07-13_11-58-12]()
-![)
-
 <img src='https://user-images.githubusercontent.com/12136220/178718223-57daac92-5453-4680-9a22-ef93bc121430.png' width="400">
 
 <img src='https://user-images.githubusercontent.com/12136220/178718515-05c63fa5-a3ec-4579-9dfb-35b18aab8a09.png' width="300">
