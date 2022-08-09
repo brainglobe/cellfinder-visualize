@@ -1,4 +1,4 @@
-# Cellfinder-explore User Guide
+# Cellfinder-visualize User Guide
 
 ## About
 
