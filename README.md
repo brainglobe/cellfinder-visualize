@@ -37,7 +37,7 @@ Simply run from the commandline as follows
 
 ```conda activate  cellfinder-visualize```
 
-```explore_sample```
+```cellfinder_visualize```
 
 This will open a GUI for selecting parameters
 
