@@ -19,13 +19,13 @@ The core aims are to provide:
 ## Installation
 
 
-```conda create -n cellfinder_explore python=3.8```
+```conda create -n  cellfinder-visualize python=3.8```
 
-```conda activate cellfinder_explore```
+```conda activate  cellfinder-visualize```
 
-```git clone https://github.com/SainsburyWellcomeCentre/cellfinder-explore.git```
+```git clone https://github.com/SainsburyWellcomeCentre/cellfinder-visualize.git```
 
-```cd cellfinder-explore```
+```cd cellfinder-visualize```
 
 ```pip install -e .```
 
@@ -33,7 +33,7 @@ The core aims are to provide:
 
 Simply run from the commandline as follows
 
-```conda activate cellfinder_explore```
+```conda activate  cellfinder-visualize```
 
 ```explore_sample```
 
