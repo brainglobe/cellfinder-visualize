@@ -1,4 +1,3 @@
-
 reference_structures_to_render = ["TH", "SCs", "SCm", "PAG"]
 
 metrics_and_axis_labels = {
@@ -9,11 +8,11 @@ metrics_and_axis_labels = {
 }
 
 camera = {
-     'pos': (-15854, -61680, 23155),
-     'viewup': (1, 0, -1),
-     'clippingRange': (57281, 96305),
-   }
+    "pos": (-15854, -61680, 23155),
+    "viewup": (1, 0, -1),
+    "clippingRange": (57281, 96305),
+}
 
 zoom = 1.5
 
-additional_obj_color = 'k'
+additional_obj_color = "k"
