@@ -69,5 +69,3 @@ Any .obj files in the directory hierarchy will be automatically displayed e.g.:
 <img src='https://user-images.githubusercontent.com/12136220/178736646-f10231e6-0855-4e3c-bb78-c65cb5cee446.png' width="400">
 
 <img src='https://user-images.githubusercontent.com/12136220/178738417-a8cf975d-5437-425f-8527-e1bab7c21725.png' width="400">
-
-
