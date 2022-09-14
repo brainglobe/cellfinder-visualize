@@ -21,7 +21,7 @@ The core aims are to provide:
 ## Installation
 
 
-```conda create -n  cellfinder-visualize python=3.8```
+```conda create -n  cellfinder-visualize```
 
 ```conda activate  cellfinder-visualize```
 
