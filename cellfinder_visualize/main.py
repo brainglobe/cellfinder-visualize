@@ -1,6 +1,9 @@
+from multiprocessing import Process
+
+import matplotlib as mpl
+mpl.use('qt5Agg')
 import pathlib
 from enum import Enum
-
 import fire
 from magicgui import magicgui
 
@@ -101,6 +104,7 @@ def analyse(
     )
 
     if barplots:
+
         plot_cellfinder_bar_summary(
             summary_files,
             region_list,
@@ -110,21 +114,27 @@ def analyse(
             colors=colors,
         )
     if brainrender:
-        render_areas(
+
+        p = Process(
+            target=render_areas,
+            args=(
             points_files,
             region_list,
-            colors=colors,
-            coronal_slice=coronal_slice_start,
-            slice_thickness=coronal_slice_end,
-            root=root,
-            show_reference_structures=show_reference_structures,
-            filter_cells_by_structure=filter_cells_by_structure,
-            hemisphere=hemisphere.value,
-            slice_root=slice_root,
-            subsample_factor=subsample_factor,
-            highlight_subregion=highlight_subregion,
-            additional_obj_files=additional_obj_files,
+            colors,
+            additional_obj_files,
+            filter_cells_by_structure,
+            coronal_slice_start,
+            coronal_slice_end,
+            root,
+            show_reference_structures,
+            hemisphere.value,
+            slice_root,
+            highlight_subregion,
+            subsample_factor,
+
+            ),
         )
+        p.start()
 
 
 def main():
