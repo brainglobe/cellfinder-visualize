@@ -41,7 +41,7 @@ Simply run from the commandline as follows
 
 This will open a GUI for selecting parameters
 
-<img src='https://user-images.githubusercontent.com/12136220/179235778-3520e509-01da-46d0-8711-bf5bad588193.png' width="550">
+<img src='https://user-images.githubusercontent.com/12136220/179235778-3520e509-01da-46d0-8711-bf5bad588193.png' width="1000">
 
 
 ```experiment dir``` should be a directory containing cellfinder output directories
