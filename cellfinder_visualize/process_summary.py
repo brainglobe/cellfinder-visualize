@@ -222,6 +222,7 @@ def plot_pooled_experiments(
                 all_samples_df,
                 fig_type="all_samples",
             )
+        plt.ion()
         plt.show()
 
 
@@ -295,8 +296,12 @@ def plot_cellfinder_bar_summary(
             )
 
         print_latex_table(single_sample_df)
+        plt.ion()
         plt.show()
+        plt.pause(0.0001)
     plot_pooled_experiments(all_dfs, reference_structure_key, output_directory)
+    plt.pause(0.0001)
+
 
 
 def print_latex_table(single_sample_df):
