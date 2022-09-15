@@ -82,14 +82,17 @@ This will open a GUI for selecting parameters
 
 The end result should be bar plots per sample indicating the counts and percentages of cells in each region:
 
-<img src='https://user-images.githubusercontent.com/12136220/178717584-1aa9ad34-5535-40d6-93c0-645a08ae3f71.png' width="550">
+<img src='https://user-images.githubusercontent.com/12136220/190441882-f79dfdc7-24d2-4bdf-a469-ba9fa8d573e6.png' width="550">
 
-<img src='https://user-images.githubusercontent.com/12136220/178717625-cef0a90c-c36f-44b2-b7c2-f099b8073d61.png' width="550">
+<img src='https://user-images.githubusercontent.com/12136220/190442296-2a3d9969-81cb-469f-8d26-f43d5251678d.png' width="550">
+
 
 
 And also a pooled plot indicating the averages for all samples and the individual points:
 
-<img src='https://user-images.githubusercontent.com/12136220/178717650-bc690b1b-5677-4fb4-afd0-732fb9eef47a.png' width="550">
+
+<img src='https://user-images.githubusercontent.com/12136220/190442598-a752da25-01c3-4df1-a592-66350995751d.png' width="550">
+
 
 Together with a brainrender of the samples and target regions:
 
