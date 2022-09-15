@@ -48,6 +48,36 @@ This will open a GUI for selecting parameters
 
 ```output dir``` should be a directory for saving any outputs for your sample
 
+```coronal slice start``` if you want to show only a coronal subsection this value is the start in microns
+
+```coronal slice end``` if you want to show only a coronal subsection this value is the end of that section in microns
+
+```root``` if checked the whole brain outline will be shown
+
+```show reference structures``` if checked, several brain regions will be added for reference only
+
+```filter cells by structure``` if checked, cells displayed will be restricted to the regions listed in ```region list```
+
+```hemisphere``` whether to display and count cells in left/right/both hemispheres
+
+```slice root``` if checked, and a subregion is selected (e.g. only one hemisphere, or a coronal section) then all other unselected regions will not be visible
+
+```subsample factor``` show every nth cell of the number chosen
+
+```highlight subregion``` outlines will be drawn for subregions that contain the string in this box. i.e. if you wanted to highlight layer 5 in displayed regions, then ```5``` would achieve this.
+
+```region list``` each item in this list will be displayed and included in any analysis
+
+```colors``` color labels that each correspond to items in the region list.
+
+```reference region``` the region used to normalise cell counts to. 
+
+```brainrender``` if checked, brainrender will run.
+
+```barplots``` if checked, barplots will be generated of the cell counts.
+
+```load additional obj files``` if any .obj files are present in the directory given then they will be rendered in the brainrender view.
+
 
 
 The end result should be bar plots per sample indicating the counts and percentages of cells in each region:
