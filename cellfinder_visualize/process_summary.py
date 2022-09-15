@@ -166,12 +166,12 @@ def plot_pooled_experiments(
     all_dfs, reference_structure_key, output_directory
 ):
 
-    h_fig, axes_dict = make_figure(
-        default_label_positions,
-        default_axis_positions,
-        axes=("A", "B", "C", "D"),
-    )
-    if len(all_dfs) > 1:
+    if len(all_dfs) > 0:
+        h_fig, axes_dict = make_figure(
+            default_label_positions,
+            default_axis_positions,
+            axes=("A", "B", "C", "D"),
+        )
         all_samples_df = pd.concat(all_dfs)
         for metric, ax in zip(
             metrics_and_axis_labels.items(), axes_dict.values()
@@ -214,16 +214,16 @@ def plot_pooled_experiments(
                     rotation=45,
                 )
                 plt.xlabel("Region")
-        if output_directory is not None:
-            save_output(
-                h_fig,
-                output_directory,
-                reference_structure_key,
-                all_samples_df,
-                fig_type="all_samples",
-            )
-        plt.ion()
-        plt.show()
+            if output_directory is not None:
+                save_output(
+                    h_fig,
+                    output_directory,
+                    reference_structure_key,
+                    all_samples_df,
+                    fig_type="all_samples",
+                )
+            plt.ion()
+            plt.show()
 
 
 def plot_cellfinder_bar_summary(
