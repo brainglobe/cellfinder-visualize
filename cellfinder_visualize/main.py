@@ -1,15 +1,12 @@
 from multiprocessing import Process
-
-import matplotlib as mpl
-
-mpl.use("qt5Agg")
 import pathlib
 from enum import Enum
 import fire
 from magicgui import magicgui
-
 from cellfinder_visualize.process_summary import plot_cellfinder_bar_summary
 from cellfinder_visualize.render import render_areas
+import matplotlib as mpl
+mpl.use("qt5Agg")
 
 
 class Hemisphere(Enum):
