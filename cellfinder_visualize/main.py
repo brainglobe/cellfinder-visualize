@@ -1,11 +1,14 @@
-from multiprocessing import Process
 import pathlib
 from enum import Enum
+from multiprocessing import Process
+
 import fire
+import matplotlib as mpl
 from magicgui import magicgui
+
 from cellfinder_visualize.process_summary import plot_cellfinder_bar_summary
 from cellfinder_visualize.render import render_areas
-import matplotlib as mpl
+
 mpl.use("qt5Agg")
 
 
