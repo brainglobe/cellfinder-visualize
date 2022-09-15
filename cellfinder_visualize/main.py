@@ -1,7 +1,8 @@
 from multiprocessing import Process
 
 import matplotlib as mpl
-mpl.use('qt5Agg')
+
+mpl.use("qt5Agg")
 import pathlib
 from enum import Enum
 import fire
@@ -118,20 +119,19 @@ def analyse(
         p = Process(
             target=render_areas,
             args=(
-            points_files,
-            region_list,
-            colors,
-            additional_obj_files,
-            filter_cells_by_structure,
-            coronal_slice_start,
-            coronal_slice_end,
-            root,
-            show_reference_structures,
-            hemisphere.value,
-            slice_root,
-            highlight_subregion,
-            subsample_factor,
-
+                points_files,
+                region_list,
+                colors,
+                additional_obj_files,
+                filter_cells_by_structure,
+                coronal_slice_start,
+                coronal_slice_end,
+                root,
+                show_reference_structures,
+                hemisphere.value,
+                slice_root,
+                highlight_subregion,
+                subsample_factor,
             ),
         )
         p.start()

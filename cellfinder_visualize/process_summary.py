@@ -303,7 +303,6 @@ def plot_cellfinder_bar_summary(
     plt.pause(0.0001)
 
 
-
 def print_latex_table(single_sample_df):
     single_sample_df["percentage"] = single_sample_df["percentage"]
     single_sample_df["percentage"] = single_sample_df["percentage"].round(2)
