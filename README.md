@@ -44,6 +44,12 @@ This will open a GUI for selecting parameters
 <img src='https://user-images.githubusercontent.com/12136220/179235778-3520e509-01da-46d0-8711-bf5bad588193.png' width="550">
 
 
+```experiment dir``` should be a directory containing cellfinder output directories
+
+```output dir``` should be a directory for saving any outputs for your sample  py38: commands fail(s)
+
+
+
 The end result should be bar plots per sample indicating the counts and percentages of cells in each region:
 
 <img src='https://user-images.githubusercontent.com/12136220/178717584-1aa9ad34-5535-40d6-93c0-645a08ae3f71.png' width="550">
