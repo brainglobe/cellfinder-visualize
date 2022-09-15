@@ -244,6 +244,7 @@ def plot_cellfinder_bar_summary(
             default_axis_positions,
             axes=("A", "B", "C", "D"),
         )
+        plt.suptitle(f"Sample: {pathlib.Path(experiment_filepath).stem}")
 
         single_sample_df = get_cellfinder_bar_data(
             experiment_filepath,
