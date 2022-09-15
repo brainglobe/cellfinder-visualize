@@ -46,7 +46,7 @@ This will open a GUI for selecting parameters
 
 ```experiment dir``` should be a directory containing cellfinder output directories
 
-```output dir``` should be a directory for saving any outputs for your sample  py38: commands fail(s)
+```output dir``` should be a directory for saving any outputs for your sample
 
 
 
