@@ -163,7 +163,7 @@ def adjust_bar_width(ax, new_value):
 
 
 def plot_pooled_experiments(
-    all_dfs, reference_structure_key, output_directory
+    all_dfs, reference_structure_key, output_directory, boxplot=False,
 ):
 
     h_fig, axes_dict = make_figure(default_label_positions,
@@ -175,7 +175,7 @@ def plot_pooled_experiments(
         if boxplot:
             for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
                 plt.sca(ax)
-                plot_boxplots(all_samples_df, metric=metric[0])
+                plot_boxplots(all_samples_df, metric=metric[0], label=metric[1])
         else:
             for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
                 plt.sca(ax)
@@ -212,7 +212,7 @@ def plot_pooled_experiments(
             plt.show()
 
 
-def plot_boxplots(all_samples_df, metric='n_cells_in_region'):
+def plot_boxplots(all_samples_df, metric, label):
     names = []
     all_values = []
     bar_space = 0.5
@@ -230,8 +230,9 @@ def plot_boxplots(all_samples_df, metric='n_cells_in_region'):
     bp = plt.boxplot(all_values, positions=np.arange(0, len(all_values) * 2, 2) + bar_space + padding, )
     for item in ['boxes', 'whiskers', 'fliers', 'caps']:
         plt.setp(bp[item], color='r')
+    plt.ylabel(label)
 
-    plt.xticks(np.arange(0, len(all_values) * 2, 2) + bar_space / 2, names)
+    plt.xticks(np.arange(0, len(all_values) * 2, 2) + bar_space / 2, names,rotation=45)
 
     plt.show()
 
@@ -305,13 +306,14 @@ def plot_cellfinder_bar_summary(
                 single_sample_df,
                 fig_type=f"{experiment_filepath.parent.stem}",
             )
-
-        print_latex_table(single_sample_df)
+        if print_latex:
+            print_latex_table(single_sample_df)
         plt.ion()
         plt.show()
         plt.pause(0.0001)
-    plot_pooled_experiments(all_dfs, reference_structure_key, output_directory)
+    plot_pooled_experiments(all_dfs, reference_structure_key, output_directory, boxplot=True)
     plt.pause(0.0001)
+    plot_pooled_experiments(all_dfs, reference_structure_key, output_directory, boxplot=False)
 
 
 def print_latex_table(single_sample_df):
