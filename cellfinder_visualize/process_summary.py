@@ -166,64 +166,74 @@ def plot_pooled_experiments(
     all_dfs, reference_structure_key, output_directory
 ):
 
-    if len(all_dfs) > 0:
-        h_fig, axes_dict = make_figure(
-            default_label_positions,
-            default_axis_positions,
-            axes=("A", "B", "C", "D"),
-        )
+    h_fig, axes_dict = make_figure(default_label_positions,
+                                   default_axis_positions,
+                                   axes=("A", "B", "C", "D"),
+                                   )
+    if len(all_dfs) > 1:
         all_samples_df = pd.concat(all_dfs)
-        for metric, ax in zip(
-            metrics_and_axis_labels.items(), axes_dict.values()
-        ):
-            plt.sca(ax)
-            average_counts_df = (
-                all_samples_df.groupby("region")
-                .agg(avg=(metric[0], "mean"))
-                .reset_index()
-            )
-            region_labels = all_samples_df["region"].unique()
+        if boxplot:
+            for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
+                plt.sca(ax)
+                plot_boxplots(all_samples_df, metric=metric[0])
+        else:
+            for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
+                plt.sca(ax)
+                average_counts_df = all_samples_df.groupby('region').agg(avg=(metric[0], 'mean')).reset_index()
+                region_labels = all_samples_df['region'].unique()
 
-            for i, region_label in enumerate(region_labels):
-                values = all_samples_df.query(f'region == "{region_label}"')[
-                    metric[0]
-                ]
-                avg = average_counts_df.query(f'region == "{region_label}"')[
-                    "avg"
-                ].values[0]
-                plt.plot([i] * len(values), values, "o", alpha=0.5)
-                plt.hlines(avg, i - 0.2, i + 0.2, color="k")
-            plt.xlim([-1, len(region_labels)])
+                for i, region_label in enumerate(region_labels):
+                    values = all_samples_df.query(f'region == "{region_label}"')[metric[0]]
+                    avg = average_counts_df.query(f'region == "{region_label}"')['avg'].values[0]
+                    plt.plot([i] * len(values), values, 'o', alpha=0.5)
+                    plt.hlines(avg, i-0.2, i+0.2, color='k')
+                plt.xlim([-1, len(region_labels)])
 
-            plt.ylabel(metric[1])
+                plt.ylabel(metric[1])
 
-            if metric[0] == "percent_of_reference_region":
-                labels = [
-                    label + " / " + reference_structure_key
-                    for label in region_labels
-                ]
-                plt.xticks(
-                    range(len(region_labels)), labels=labels, rotation=45
-                )
-                plt.xlabel("Region / Reference Region")
+                if metric[0] == "percent_of_reference_region":
+                    labels = [label + ' / ' + reference_structure_key for label in region_labels]
+                    plt.xticks(range(len(region_labels)),
+                               labels=labels,
+                               rotation=45)
+                    plt.xlabel('Region / Reference Region')
 
-            else:
-                plt.xticks(
-                    range(len(region_labels)),
-                    labels=region_labels,
-                    rotation=45,
-                )
-                plt.xlabel("Region")
+                else:
+                    plt.xticks(range(len(region_labels)), labels=region_labels,rotation=45)
+                    plt.xlabel('Region')
             if output_directory is not None:
                 save_output(
                     h_fig,
                     output_directory,
                     reference_structure_key,
                     all_samples_df,
-                    fig_type="all_samples",
+                    fig_type='all_samples',
                 )
-            plt.ion()
             plt.show()
+
+
+def plot_boxplots(all_samples_df, metric='n_cells_in_region'):
+    names = []
+    all_values = []
+    bar_space = 0.5
+    padding = 0.1
+
+    for i, (name, group) in enumerate(all_samples_df[['region', metric]].groupby('region')):
+        values = group[metric].values
+        names.append(name)
+        all_values.append(values)
+
+    bp = plt.boxplot(all_values, positions=range(0, len(all_values) * 2, 2))
+    for item in ['boxes', 'whiskers', 'fliers', 'caps']:
+        plt.setp(bp[item], color='k')
+
+    bp = plt.boxplot(all_values, positions=np.arange(0, len(all_values) * 2, 2) + bar_space + padding, )
+    for item in ['boxes', 'whiskers', 'fliers', 'caps']:
+        plt.setp(bp[item], color='r')
+
+    plt.xticks(np.arange(0, len(all_values) * 2, 2) + bar_space / 2, names)
+
+    plt.show()
 
 
 def plot_cellfinder_bar_summary(
