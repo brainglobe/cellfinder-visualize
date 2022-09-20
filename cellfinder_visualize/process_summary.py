@@ -244,6 +244,7 @@ def plot_cellfinder_bar_summary(
     output_directory,
     lateralisation,
     colors,
+    print_latex=False,
 ):
 
     colors_palette = sns.set_palette(sns.color_palette(colors))
