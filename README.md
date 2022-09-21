@@ -41,10 +41,17 @@ Simply run from the commandline as follows
 
 This will open a GUI for selecting parameters
 
-<img src='https://user-images.githubusercontent.com/12136220/179235778-3520e509-01da-46d0-8711-bf5bad588193.png' width="1000">
+<img src='https://user-images.githubusercontent.com/12136220/191545294-11b631b2-4189-4b77-af96-002cd498d3b1.png' width="1000">
 
 
-```experiment dir``` should be a directory containing cellfinder output directories
+
+```experiment dir``` should be a directory containing cellfinder output directories. When selected, all subfolders in the selected directory will be displayed and available in the ```experiment group``` section in the GUI where they can be selected and assigned a group for running through the analysis.
+
+```experiment group``` sample directories shown under experiment group can be selected and assigned to groups for comparative analysis.
+
+```Set Group A``` when clicked, this button will assign all currently highlighted directories to a single experimental group (group A) for analysis.
+
+```Set Group B``` when clicked, this button will assign all currently highlighted directories to a single experimental group (group B) for analysis.
 
 ```output dir``` should be a directory for saving any outputs for your sample
 
@@ -93,8 +100,16 @@ And also a pooled plot indicating the averages for all samples and the individua
 
 <img src='https://user-images.githubusercontent.com/12136220/190442598-a752da25-01c3-4df1-a592-66350995751d.png' width="550">
 
+A boxplot of each experimental group:
+
+<img src='https://user-images.githubusercontent.com/12136220/191541267-31a7edca-df32-45a4-98a8-56e1daf25843.png' width="550">
+
+
 
 Together with a brainrender of the samples and target regions:
+
+<img src='https://user-images.githubusercontent.com/12136220/191542476-ad48ba6f-4da9-4a25-bb00-cbb48cb167fc.png' width="550">
+
 
 <img src='https://user-images.githubusercontent.com/12136220/178687766-f50dccf7-57ab-4fa2-b75a-d9534479f930.png' width="400">
 
