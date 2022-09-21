@@ -9,8 +9,6 @@ from magicgui import magicgui
 from cellfinder_visualize.process_summary import plot_cellfinder_bar_summary
 from cellfinder_visualize.render import render_areas
 
-mpl.use("qt5Agg")
-
 
 class Hemisphere(Enum):
     left = "left"
@@ -24,8 +22,13 @@ class Hemisphere(Enum):
     call_button="Run",
     persist=False,
     tooltips=True,
+    experiment_group={"choices": [1,2], "allow_multiple": True},
+    add_to_group=dict(
+        widget_type="PushButton", text="Add Sample to Analysis"
+    )
 )
 def analyse(
+    add_to_group,
     experiment_dir=pathlib.Path.home(),
     output_dir=pathlib.Path.home(),
     coronal_slice_start=0,
@@ -63,6 +66,8 @@ def analyse(
     brainrender=True,
     barplots=True,
     load_additional_obj_files=True,
+    experiment_group=[],
+
 ):
     """
 
@@ -104,6 +109,7 @@ def analyse(
         else None
     )
 
+    # TODO: get summary files from gui
     if barplots:
 
         plot_cellfinder_bar_summary(
@@ -135,6 +141,21 @@ def analyse(
             ),
         )
         p.start()
+
+
+@analyse.experiment_dir.changed.connect
+def load_all_samples():
+    p = analyse.experiment_dir.value
+    paths = list(p.glob('*'))
+    analyse.experiment_group.choices = paths
+
+
+@analyse.add_to_group.changed.connect
+def add_to_group(event=None):
+    all_summary_files = []
+    for p in analyse.experiment_group:
+        all_summary_files.extend(p.rglob('summary.csv'))
+    analyse.group_a = all_summary_files
 
 
 def main():
