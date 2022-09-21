@@ -310,6 +310,7 @@ def plot_cellfinder_bar_summary(
     colors,
     print_latex=False,
     plot_each_sample=False,
+    plot_group_analysis=False,
 ):
     dfs_all = []
     colors_palette = sns.set_palette(sns.color_palette(colors))
@@ -358,21 +359,22 @@ def plot_cellfinder_bar_summary(
 
         dfs_all.append(group_dfs)
 
-    plot_pooled_experiments(
-        dfs_all[0],
-        dfs_all[1],
-        reference_structure_key,
-        output_directory,
-        boxplot=True,
-    )
-    plt.pause(0.0001)
-    plot_pooled_experiments(
-        dfs_all[0],
-        dfs_all[1],
-        reference_structure_key,
-        output_directory,
-        boxplot=False,
-    )
+    if plot_group_analysis:
+        plot_pooled_experiments(
+            dfs_all[0],
+            dfs_all[1],
+            reference_structure_key,
+            output_directory,
+            boxplot=True,
+        )
+        plt.pause(0.0001)
+        plot_pooled_experiments(
+            dfs_all[0],
+            dfs_all[1],
+            reference_structure_key,
+            output_directory,
+            boxplot=False,
+        )
 
 
 def plot_single_sample(

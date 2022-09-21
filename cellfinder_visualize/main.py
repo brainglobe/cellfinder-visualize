@@ -67,6 +67,7 @@ def analyse(
     reference_region="CTX",
     brainrender=True,
     plot_each_sample=True,
+    plot_group_analysis=True,
     load_additional_obj_files=True,
     experiment_group=[],
 ):
@@ -134,6 +135,7 @@ def analyse(
         lateralisation=hemisphere,
         colors=colors,
         plot_each_sample=plot_each_sample,
+        plot_group_analysis=plot_group_analysis,
 
     )
 
