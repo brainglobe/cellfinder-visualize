@@ -105,14 +105,6 @@ def analyse(
     directory tree will be rendered.
     :return:
     """
-    experiment_dir = pathlib.Path(experiment_dir)
-    points_files = list(experiment_dir.rglob("points*.npy"))
-    summary_files = list(experiment_dir.rglob("summary*.csv"))
-    additional_obj_files = (
-        list(experiment_dir.rglob("*.obj"))
-        if load_additional_obj_files
-        else None
-    )
 
     if brainrender:
 
@@ -120,9 +112,10 @@ def analyse(
             target=render_areas,
             args=(
                 analyse.group_a['points'],
+                analyse.group_b['points'],
                 region_list,
                 colors,
-                additional_obj_files,
+                analyse.group_a['renderable objects'],
                 filter_cells_by_structure,
                 coronal_slice_start,
                 coronal_slice_end,

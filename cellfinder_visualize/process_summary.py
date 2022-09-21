@@ -147,7 +147,15 @@ def get_cellfinder_bar_data(
     df_dict.setdefault("region", plotting_keys)
     df_dict.setdefault("sample_id", [sample_id] * len(reference_counts))
 
-    return pd.DataFrame.from_dict(df_dict)
+    single_sample_df = pd.DataFrame.from_dict(df_dict)
+
+    single_sample_df["percent_reference_labels"] = (
+            single_sample_df["region"]
+            + " / "
+            + single_sample_df["reference_regions"]
+    )
+
+    return single_sample_df
 
 
 def adjust_bar_width(ax, new_value):
@@ -259,6 +267,7 @@ def plot_cellfinder_bar_summary(
     lateralisation,
     colors,
     print_latex=False,
+    plot_each_sample=False,
 ):
     dfs_all = []
     colors_palette = sns.set_palette(sns.color_palette(colors))
@@ -266,22 +275,39 @@ def plot_cellfinder_bar_summary(
         group_dfs = []
 
         for experiment_filepath in experiment_filepaths:
-            h_fig, axes_dict = make_figure(
-                default_label_positions,
-                default_axis_positions,
-                axes=("A", "B", "C", "D"),
-            )
-            single_sample_df = plot_single_sample(group_dfs, axes_dict, colors_palette, experiment_filepath, lateralisation,
-                                                  plotting_keys, reference_structure_key)
 
-            if output_directory is not None:
-                save_output(
-                    h_fig,
-                    output_directory,
-                    reference_structure_key,
-                    single_sample_df,
-                    fig_type=f"{experiment_filepath.parent.stem}",
+            single_sample_df = get_cellfinder_bar_data(
+                experiment_filepath,
+                plotting_keys,
+                reference_structure_key,
+                pathlib.Path(experiment_filepath).stem,
+                lateralisation=lateralisation,
+            )
+
+            group_dfs.append(single_sample_df)
+
+            if plot_each_sample:
+                h_fig, axes_dict = make_figure(
+                    default_label_positions,
+                    default_axis_positions,
+                    axes=("A", "B", "C", "D"),
                 )
+                plot_single_sample(group_dfs,
+                                   axes_dict,
+                                   colors_palette,
+                                   experiment_filepath,
+                                   lateralisation,
+                                   plotting_keys,
+                                   reference_structure_key)
+
+                if output_directory is not None:
+                    save_output(
+                        h_fig,
+                        output_directory,
+                        reference_structure_key,
+                        single_sample_df,
+                        fig_type=f"{experiment_filepath.parent.stem}",
+                    )
 
             if print_latex:
                 print_latex_table(single_sample_df)
@@ -293,22 +319,11 @@ def plot_cellfinder_bar_summary(
     plot_pooled_experiments(dfs_all[0],dfs_all[1], reference_structure_key, output_directory, boxplot=False)
 
 
-def plot_single_sample(all_dfs, axes_dict, colors_palette, experiment_filepath, lateralisation, plotting_keys,
+def plot_single_sample(single_sample_df, axes_dict, colors_palette, experiment_filepath, lateralisation, plotting_keys,
                        reference_structure_key):
     plt.suptitle(f"Sample: {pathlib.Path(experiment_filepath).stem}")
-    single_sample_df = get_cellfinder_bar_data(
-        experiment_filepath,
-        plotting_keys,
-        reference_structure_key,
-        pathlib.Path(experiment_filepath).stem,
-        lateralisation=lateralisation,
-    )
-    single_sample_df["percent_reference_labels"] = (
-            single_sample_df["region"]
-            + " / "
-            + single_sample_df["reference_regions"]
-    )
-    all_dfs.append(single_sample_df)
+
+
     for metric, ax in zip(
             metrics_and_axis_labels.items(), axes_dict.values()
     ):
@@ -339,7 +354,6 @@ def plot_single_sample(all_dfs, axes_dict, colors_palette, experiment_filepath, 
         plt.ion()
         plt.show()
         plt.pause(0.0001)
-    return single_sample_df
 
 
 def print_latex_table(single_sample_df):
