@@ -386,7 +386,9 @@ def plot_single_sample(
     plotting_keys,
     reference_structure_key,
 ):
-    plt.suptitle(f"Sample: {pathlib.Path(experiment_filepath).parent.parent.stem}")
+    plt.suptitle(
+        f"Sample: {pathlib.Path(experiment_filepath).parent.parent.stem}"
+    )
 
     for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
         plt.sca(ax)

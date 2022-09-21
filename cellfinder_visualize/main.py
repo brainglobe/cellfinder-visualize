@@ -136,7 +136,6 @@ def analyse(
         colors=colors,
         plot_each_sample=plot_each_sample,
         plot_group_analysis=plot_group_analysis,
-
     )
 
 
