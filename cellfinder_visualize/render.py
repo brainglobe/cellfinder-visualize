@@ -57,10 +57,10 @@ def render_areas(
 
     if not filter_cells_by_structure:
         render_cells_in_region(
-            cells_group_a, scene.root, regions_rendered, scene, color='k'
+            cells_group_a, scene.root, regions_rendered, scene, color="k"
         )
         render_cells_in_region(
-            cells_group_b, scene.root, regions_rendered, scene, color='r'
+            cells_group_b, scene.root, regions_rendered, scene, color="r"
         )
         regions = render_regions(
             colors, region_keys, scene, hemisphere=hemisphere
@@ -80,10 +80,10 @@ def render_areas(
         regions_rendered.extend(regions)
 
         regions_rendered = render_cells_in_regions(
-            cells_group_a, regions, regions_rendered, scene, color='k'
+            cells_group_a, regions, regions_rendered, scene, color="k"
         )
         regions_rendered = render_cells_in_regions(
-            cells_group_b, regions, regions_rendered, scene, color='r'
+            cells_group_b, regions, regions_rendered, scene, color="r"
         )
 
     if additional_obj_files is not None:
