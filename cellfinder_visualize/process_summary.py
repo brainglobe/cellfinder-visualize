@@ -163,82 +163,96 @@ def adjust_bar_width(ax, new_value):
 
 
 def plot_pooled_experiments(
-    all_dfs, reference_structure_key, output_directory, boxplot=False,
+    df_group_a, df_group_b, reference_structure_key, output_directory, boxplot=False,
 ):
 
-    h_fig, axes_dict = make_figure(default_label_positions,
-                                   default_axis_positions,
-                                   axes=("A", "B", "C", "D"),
-                                   )
-    if len(all_dfs) > 1:
-        all_samples_df = pd.concat(all_dfs)
+    if len(df_group_a) > 1 and len(df_group_b) > 1:
+
+        df_group_a = pd.concat(df_group_a)
+        df_group_b = pd.concat(df_group_b)
+
         if boxplot:
+            h_fig, axes_dict = make_figure(default_label_positions,
+                                           default_axis_positions,
+                                           axes=("A", "B", "C", "D"),
+                                           )
             for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
                 plt.sca(ax)
-                plot_boxplots(all_samples_df, metric=metric[0], label=metric[1])
+                plot_boxplots(df_group_a, df_group_b, metric=metric[0], label=metric[1])
         else:
-            for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
-                plt.sca(ax)
-                average_counts_df = all_samples_df.groupby('region').agg(avg=(metric[0], 'mean')).reset_index()
-                region_labels = all_samples_df['region'].unique()
+            for all_samples_df in [df_group_a, df_group_b]:
+                h_fig, axes_dict = make_figure(default_label_positions,
+                                               default_axis_positions,
+                                               axes=("A", "B", "C", "D"),
+                                               )
+                for metric, ax in zip(metrics_and_axis_labels.items(), axes_dict.values()):
+                    plt.sca(ax)
+                    average_counts_df = all_samples_df.groupby('region').agg(avg=(metric[0], 'mean')).reset_index()
+                    region_labels = all_samples_df['region'].unique()
 
-                for i, region_label in enumerate(region_labels):
-                    values = all_samples_df.query(f'region == "{region_label}"')[metric[0]]
-                    avg = average_counts_df.query(f'region == "{region_label}"')['avg'].values[0]
-                    plt.plot([i] * len(values), values, 'o', alpha=0.5)
-                    plt.hlines(avg, i-0.2, i+0.2, color='k')
-                plt.xlim([-1, len(region_labels)])
+                    for i, region_label in enumerate(region_labels):
+                        values = all_samples_df.query(f'region == "{region_label}"')[metric[0]]
+                        avg = average_counts_df.query(f'region == "{region_label}"')['avg'].values[0]
+                        plt.plot([i] * len(values), values, 'o', alpha=0.5)
+                        plt.hlines(avg, i-0.2, i+0.2, color='k')
+                    plt.xlim([-1, len(region_labels)])
 
-                plt.ylabel(metric[1])
+                    plt.ylabel(metric[1])
 
-                if metric[0] == "percent_of_reference_region":
-                    labels = [label + ' / ' + reference_structure_key for label in region_labels]
-                    plt.xticks(range(len(region_labels)),
-                               labels=labels,
-                               rotation=45)
-                    plt.xlabel('Region / Reference Region')
+                    if metric[0] == "percent_of_reference_region":
+                        labels = [label + ' / ' + reference_structure_key for label in region_labels]
+                        plt.xticks(range(len(region_labels)),
+                                   labels=labels,
+                                   rotation=45)
+                        plt.xlabel('Region / Reference Region')
 
-                else:
-                    plt.xticks(range(len(region_labels)), labels=region_labels,rotation=45)
-                    plt.xlabel('Region')
-            if output_directory is not None:
-                save_output(
-                    h_fig,
-                    output_directory,
-                    reference_structure_key,
-                    all_samples_df,
-                    fig_type='all_samples',
-                )
-            plt.show()
+                    else:
+                        plt.xticks(range(len(region_labels)), labels=region_labels,rotation=45)
+                        plt.xlabel('Region')
+                if output_directory is not None:
+                    save_output(
+                        h_fig,
+                        output_directory,
+                        reference_structure_key,
+                        all_samples_df,
+                        fig_type='all_samples',
+                    )
+                plt.show()
 
 
-def plot_boxplots(all_samples_df, metric, label):
+def plot_boxplots(df_group_a, df_group_b, metric, label):
     names = []
-    all_values = []
+    all_values_a = []
+    all_values_b = []
     bar_space = 0.5
     padding = 0.1
 
-    for i, (name, group) in enumerate(all_samples_df[['region', metric]].groupby('region')):
+    for i, (name, group) in enumerate(df_group_a[['region', metric]].groupby('region')):
         values = group[metric].values
         names.append(name)
-        all_values.append(values)
+        all_values_a.append(values)
 
-    bp = plt.boxplot(all_values, positions=range(0, len(all_values) * 2, 2))
+    bp = plt.boxplot(all_values_a, positions=range(0, len(all_values_a) * 2, 2))
     for item in ['boxes', 'whiskers', 'fliers', 'caps']:
         plt.setp(bp[item], color='k')
 
-    bp = plt.boxplot(all_values, positions=np.arange(0, len(all_values) * 2, 2) + bar_space + padding, )
+    for i, (name, group) in enumerate(df_group_b[['region', metric]].groupby('region')):
+        values = group[metric].values
+        all_values_b.append(values)
+
+    bp = plt.boxplot(all_values_b, positions=np.arange(0, len(all_values_b) * 2, 2) + bar_space + padding, )
     for item in ['boxes', 'whiskers', 'fliers', 'caps']:
         plt.setp(bp[item], color='r')
     plt.ylabel(label)
 
-    plt.xticks(np.arange(0, len(all_values) * 2, 2) + bar_space / 2, names,rotation=45)
+    plt.xticks(np.arange(0, len(all_values_a) * 2, 2) + bar_space / 2, names,rotation=45)
 
     plt.show()
 
 
 def plot_cellfinder_bar_summary(
-    experiment_filepaths,
+    group_a_filepaths,
+    group_b_filepaths,
     plotting_keys,
     reference_structure_key,
     output_directory,
@@ -246,75 +260,86 @@ def plot_cellfinder_bar_summary(
     colors,
     print_latex=False,
 ):
-
+    dfs_all = []
     colors_palette = sns.set_palette(sns.color_palette(colors))
+    for experiment_filepaths in [group_a_filepaths, group_b_filepaths]:
+        group_dfs = []
 
-    all_dfs = []
-    for experiment_filepath in experiment_filepaths:
-        h_fig, axes_dict = make_figure(
-            default_label_positions,
-            default_axis_positions,
-            axes=("A", "B", "C", "D"),
-        )
-        plt.suptitle(f"Sample: {pathlib.Path(experiment_filepath).stem}")
+        for experiment_filepath in experiment_filepaths:
+            h_fig, axes_dict = make_figure(
+                default_label_positions,
+                default_axis_positions,
+                axes=("A", "B", "C", "D"),
+            )
+            single_sample_df = plot_single_sample(group_dfs, axes_dict, colors_palette, experiment_filepath, lateralisation,
+                                                  plotting_keys, reference_structure_key)
 
-        single_sample_df = get_cellfinder_bar_data(
-            experiment_filepath,
-            plotting_keys,
-            reference_structure_key,
-            pathlib.Path(experiment_filepath).stem,
-            lateralisation=lateralisation,
-        )
+            if output_directory is not None:
+                save_output(
+                    h_fig,
+                    output_directory,
+                    reference_structure_key,
+                    single_sample_df,
+                    fig_type=f"{experiment_filepath.parent.stem}",
+                )
 
-        single_sample_df["percent_reference_labels"] = (
+            if print_latex:
+                print_latex_table(single_sample_df)
+
+        dfs_all.append(group_dfs)
+
+    plot_pooled_experiments(dfs_all[0], dfs_all[1], reference_structure_key, output_directory, boxplot=True)
+    plt.pause(0.0001)
+    plot_pooled_experiments(dfs_all[0],dfs_all[1], reference_structure_key, output_directory, boxplot=False)
+
+
+def plot_single_sample(all_dfs, axes_dict, colors_palette, experiment_filepath, lateralisation, plotting_keys,
+                       reference_structure_key):
+    plt.suptitle(f"Sample: {pathlib.Path(experiment_filepath).stem}")
+    single_sample_df = get_cellfinder_bar_data(
+        experiment_filepath,
+        plotting_keys,
+        reference_structure_key,
+        pathlib.Path(experiment_filepath).stem,
+        lateralisation=lateralisation,
+    )
+    single_sample_df["percent_reference_labels"] = (
             single_sample_df["region"]
             + " / "
             + single_sample_df["reference_regions"]
-        )
-        all_dfs.append(single_sample_df)
-        for metric, ax in zip(
+    )
+    all_dfs.append(single_sample_df)
+    for metric, ax in zip(
             metrics_and_axis_labels.items(), axes_dict.values()
-        ):
-            plt.sca(ax)
+    ):
+        plt.sca(ax)
 
-            if metric[0] == "percent_of_reference_region":
-                sns.barplot(
-                    data=single_sample_df,
-                    x="percent_reference_labels",
-                    y=metric[0],
-                    palette=colors_palette,
-                )
-                plt.xlabel("Region / Reference Region")
-
-            else:
-                sns.barplot(
-                    data=single_sample_df,
-                    x="region",
-                    y=metric[0],
-                    palette=colors_palette,
-                )
-                plt.xlabel("Region")
-
-            plt.xlim([-1, len(plotting_keys)])
-            plt.xticks(rotation=45)
-            plt.ylabel(metric[1])
-
-        if output_directory is not None:
-            save_output(
-                h_fig,
-                output_directory,
-                reference_structure_key,
-                single_sample_df,
-                fig_type=f"{experiment_filepath.parent.stem}",
+        if metric[0] == "percent_of_reference_region":
+            sns.barplot(
+                data=single_sample_df,
+                x="percent_reference_labels",
+                y=metric[0],
+                palette=colors_palette,
             )
-        if print_latex:
-            print_latex_table(single_sample_df)
+            plt.xlabel("Region / Reference Region")
+
+        else:
+            sns.barplot(
+                data=single_sample_df,
+                x="region",
+                y=metric[0],
+                palette=colors_palette,
+            )
+            plt.xlabel("Region")
+
+        plt.xlim([-1, len(plotting_keys)])
+        plt.xticks(rotation=45)
+        plt.ylabel(metric[1])
+
         plt.ion()
         plt.show()
         plt.pause(0.0001)
-    plot_pooled_experiments(all_dfs, reference_structure_key, output_directory, boxplot=True)
-    plt.pause(0.0001)
-    plot_pooled_experiments(all_dfs, reference_structure_key, output_directory, boxplot=False)
+    return single_sample_df
 
 
 def print_latex_table(single_sample_df):

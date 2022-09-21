@@ -8,6 +8,7 @@ from magicgui import magicgui
 
 from cellfinder_visualize.process_summary import plot_cellfinder_bar_summary
 from cellfinder_visualize.render import render_areas
+mpl.use('Qt5Agg')
 
 
 class Hemisphere(Enum):
@@ -24,11 +25,15 @@ class Hemisphere(Enum):
     tooltips=True,
     experiment_group={"choices": [1,2], "allow_multiple": True},
     add_to_group=dict(
-        widget_type="PushButton", text="Add Sample to Analysis"
+        widget_type="PushButton", text="Set Group A"
+    ),
+    add_to_group_b=dict(
+        widget_type="PushButton", text="Set Group B"
     )
 )
 def analyse(
     add_to_group,
+    add_to_group_b,
     experiment_dir=pathlib.Path.home(),
     output_dir=pathlib.Path.home(),
     coronal_slice_start=0,
@@ -109,23 +114,12 @@ def analyse(
         else None
     )
 
-    # TODO: get summary files from gui
-    if barplots:
-
-        plot_cellfinder_bar_summary(
-            summary_files,
-            region_list,
-            reference_region,
-            output_dir,
-            lateralisation=hemisphere,
-            colors=colors,
-        )
     if brainrender:
 
         p = Process(
             target=render_areas,
             args=(
-                points_files,
+                analyse.group_a['points'],
                 region_list,
                 colors,
                 additional_obj_files,
@@ -142,6 +136,19 @@ def analyse(
         )
         p.start()
 
+    # TODO: get summary files from gui
+    if barplots:
+
+        plot_cellfinder_bar_summary(
+            analyse.group_a['summary'],
+            analyse.group_b['summary'],
+            region_list,
+            reference_region,
+            output_dir,
+            lateralisation=hemisphere,
+            colors=colors,
+        )
+
 
 @analyse.experiment_dir.changed.connect
 def load_all_samples():
@@ -152,21 +159,30 @@ def load_all_samples():
 
 @analyse.add_to_group.changed.connect
 def add_to_group(event=None):
+    group_dict = get_file_paths_for_group(analyse)
+    analyse.group_a = group_dict
+    print(analyse.group_a)
+
+@analyse.add_to_group_b.changed.connect
+def add_to_group(event=None):
+    group_dict = get_file_paths_for_group(analyse)
+    analyse.group_b = group_dict
+    print(analyse.group_b)
+
+
+def get_file_paths_for_group(widget):
     all_summary_files = []
     all_points_files = []
     render_files = []
-    for p in analyse.experiment_group.value:
-        all_summary_files.extend(p.rglob('summary.csv'))
+    for p in widget.experiment_group.value:
+        all_summary_files.extend(p.rglob('*summary*.csv'))
         all_points_files.extend(p.rglob('*points*npy'))
         render_files.extend(p.rglob('*.obj'))
-
     group_dict = {}
     group_dict.setdefault('summary', all_summary_files)
     group_dict.setdefault('points', all_points_files)
     group_dict.setdefault('renderable objects', render_files)
-
-    analyse.group_a = group_dict
-    print(analyse.group_a)
+    return group_dict
 
 
 def main():
