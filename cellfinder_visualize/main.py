@@ -153,9 +153,20 @@ def load_all_samples():
 @analyse.add_to_group.changed.connect
 def add_to_group(event=None):
     all_summary_files = []
-    for p in analyse.experiment_group:
+    all_points_files = []
+    render_files = []
+    for p in analyse.experiment_group.value:
         all_summary_files.extend(p.rglob('summary.csv'))
-    analyse.group_a = all_summary_files
+        all_points_files.extend(p.rglob('*points*npy'))
+        render_files.extend(p.rglob('*.obj'))
+
+    group_dict = {}
+    group_dict.setdefault('summary', all_summary_files)
+    group_dict.setdefault('points', all_points_files)
+    group_dict.setdefault('renderable objects', render_files)
+
+    analyse.group_a = group_dict
+    print(analyse.group_a)
 
 
 def main():
