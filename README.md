@@ -95,6 +95,7 @@ The end result should be bar plots per sample indicating the counts and percenta
 
 
 
+
 And also a pooled plot indicating the averages for all samples and the individual points:
 
 
