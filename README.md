@@ -70,7 +70,7 @@ This will open a GUI for selecting parameters
 
 ```colors``` color labels that each correspond to items in the region list.
 
-```reference region``` the region used to normalise cell counts to. 
+```reference region``` the region used to normalise cell counts to.
 
 ```brainrender``` if checked, brainrender will run.
 
