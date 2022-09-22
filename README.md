@@ -116,7 +116,6 @@ Together with a brainrender of the samples and target regions:
 <img src='https://user-images.githubusercontent.com/12136220/178718223-57daac92-5453-4680-9a22-ef93bc121430.png' width="400">
 
 <img src='https://user-images.githubusercontent.com/12136220/178718515-05c63fa5-a3ec-4579-9dfb-35b18aab8a09.png' width="400">
-
 Any .obj files in the directory hierarchy will be automatically displayed e.g.:
 
 <img src='https://user-images.githubusercontent.com/12136220/178738417-a8cf975d-5437-425f-8527-e1bab7c21725.png' width="400">
