@@ -19,7 +19,8 @@ from cellfinder_visualize.rendering_functions import (
 
 
 def render_areas(
-    points_files,
+    points_files_a,
+    points_files_b,
     region_keys,
     colors,
     additional_obj_files=None,
@@ -38,10 +39,9 @@ def render_areas(
 
     regions_rendered = []
     scene = Scene(title="labelled cells", root=root)
-    all_samples_cells = []
-    for points_file in points_files:
-        cells = np.load(points_file)[::subsample_factor]
-        all_samples_cells.append(cells)
+
+    cells_group_a = load_cells_in_group(points_files_a, subsample_factor)
+    cells_group_b = load_cells_in_group(points_files_b, subsample_factor)
 
     if slice_root:
         regions_rendered.append(scene.root)
@@ -56,10 +56,12 @@ def render_areas(
         )
 
     if not filter_cells_by_structure:
-        for cells, color in zip(all_samples_cells, colors):
-            render_cells_in_region(
-                cells, scene.root, regions_rendered, scene, color=color
-            )
+        render_cells_in_region(
+            cells_group_a, scene.root, regions_rendered, scene, color="k"
+        )
+        render_cells_in_region(
+            cells_group_b, scene.root, regions_rendered, scene, color="r"
+        )
         regions = render_regions(
             colors, region_keys, scene, hemisphere=hemisphere
         )
@@ -77,10 +79,12 @@ def render_areas(
         regions = render_regions(colors, region_keys, scene, hemisphere)
         regions_rendered.extend(regions)
 
-        for cells, color in zip(all_samples_cells, colors):
-            regions_rendered = render_cells_in_regions(
-                cells, regions, regions_rendered, scene, color=color
-            )
+        regions_rendered = render_cells_in_regions(
+            cells_group_a, regions, regions_rendered, scene, color="k"
+        )
+        regions_rendered = render_cells_in_regions(
+            cells_group_b, regions, regions_rendered, scene, color="r"
+        )
 
     if additional_obj_files is not None:
         for fpath in additional_obj_files:
@@ -98,3 +102,11 @@ def render_areas(
         )
 
     scene.render(camera=camera, zoom=zoom)
+
+
+def load_cells_in_group(points_files, subsample_factor):
+    cells = []
+    for points_file in points_files:
+        these_cells = np.load(points_file)[::subsample_factor]
+        cells.extend(these_cells)
+    return cells
