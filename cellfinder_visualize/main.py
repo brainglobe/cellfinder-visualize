@@ -139,11 +139,17 @@ def analyse(
     )
 
 
+def is_cellfinder_path(p):
+    return len(list(p.glob('cellfinder.json'))) > 0
+
+
 @analyse.experiment_dir.changed.connect
 def load_all_samples():
     p = analyse.experiment_dir.value
     paths = list(p.glob("*"))
-    analyse.experiment_group.choices = paths
+    cellfinder_paths = [p for p in paths if is_cellfinder_path(p)]
+
+    analyse.experiment_group.choices = cellfinder_paths
 
 
 @analyse.add_to_group_a.changed.connect
