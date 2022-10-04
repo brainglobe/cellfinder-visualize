@@ -25,7 +25,7 @@ class Hemisphere(Enum):
     call_button="Run",
     persist=False,
     tooltips=True,
-    experiment_group={"choices": [1, 2], "allow_multiple": True},
+    experiment_group={"choices": ['', ''], "allow_multiple": True},
     add_to_group_a=dict(widget_type="PushButton", text="Set Group A"),
     add_to_group_b=dict(widget_type="PushButton", text="Set Group B"),
 )
