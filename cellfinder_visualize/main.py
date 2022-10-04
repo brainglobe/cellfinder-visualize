@@ -2,6 +2,7 @@ import pathlib
 from enum import Enum
 from multiprocessing import Process
 
+import bg_atlasapi
 import fire
 import matplotlib as mpl
 from magicgui import magicgui
@@ -102,6 +103,7 @@ def analyse(
     directory tree will be rendered.
     :return:
     """
+    atlas_name = 'allen_mouse_10um'
 
     if brainrender:
 
@@ -122,6 +124,7 @@ def analyse(
                 slice_root,
                 highlight_subregion,
                 subsample_factor,
+                atlas_name,
             ),
         )
         p.start()
@@ -136,6 +139,7 @@ def analyse(
         colors=colors,
         plot_each_sample=plot_each_sample,
         plot_group_analysis=plot_group_analysis,
+        atlas_name='allen_mouse_10um',
     )
 
 

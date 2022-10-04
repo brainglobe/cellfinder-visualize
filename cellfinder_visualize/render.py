@@ -1,3 +1,4 @@
+import bg_atlasapi
 import brainrender
 import numpy as np
 from brainrender import Scene
@@ -33,7 +34,9 @@ def render_areas(
     slice_root=True,
     highlight_subregion="6",
     subsample_factor=10,
+    atlas_name='allen_mouse_10um',
 ):
+    atlas = bg_atlasapi.BrainGlobeAtlas(atlas_name)
 
     brainrender.SHADER_STYLE = "cartoon"
 
@@ -48,6 +51,7 @@ def render_areas(
 
     for region_name in region_keys:
         highlight_layer(
+            atlas,
             highlight_subregion,
             region_name,
             regions_rendered,

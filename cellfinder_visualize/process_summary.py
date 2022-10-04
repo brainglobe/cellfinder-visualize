@@ -9,61 +9,14 @@ from makefig.config import default_axis_positions, default_label_positions
 from makefig.construct_figure import make_figure
 
 from cellfinder_visualize.region_groupings import metrics_and_axis_labels
-
-path_to_structures = "~/.brainglobe/allen_mouse_10um_v1.2/structures.csv"
-structures_df = pd.read_csv(path_to_structures)
+import bg_atlasapi
 
 
-def is_child(row, parent_id, distance=2):
-    all_keys = str(row["structure_id_path"]).split("/")
-    all_keys = [x for x in all_keys if x.isdigit()]
-    if len(all_keys) > 1:
 
-        if parent_id in all_keys[-distance:-1]:
-            return True
+def get_n_cells_in_region(atlas, df_results, key, distance=2, lateralisation="left"):
 
-
-def has_children(row, parent_id):
-
-    all_keys = str(row["structure_id_path"]).split("/")
-    if parent_id != all_keys[-1]:
-        return True
-    else:
-        logging.info(
-            f"{parent_id} is lowest level of hierarchy. "
-            f"finding cell counts for this structure..."
-        )
-
-
-def get_all_children(key):
-    region_row = structures_df[structures_df["acronym"] == key]
-    structure_names = get_children(region_row, "acronym")
-    return structure_names
-
-
-def get_children(parent_row, output_key, distance=2):
-    parent_id = str(parent_row["id"].values[0])
-
-    all_children = []
-
-    for x in structures_df.iterrows():
-        if is_child(x[1], parent_id, distance):
-            all_children.append(x[1][output_key])
-
-    if len(all_children) == 0:
-        logging.info(
-            f"{parent_id} is lowest level of hierarchy. "
-            f"finding cell counts for this structure..."
-        )
-
-    all_children.append(parent_row[output_key].values[0])
-
-    return all_children
-
-
-def get_n_cells_in_region(df_results, key, distance=2, lateralisation="left"):
-    region_row = structures_df[structures_df["acronym"] == key]
-    structure_names = get_children(region_row, "name", distance)
+    structure_acronyms = atlas.get_structure_descendants(key)
+    structure_names = [atlas.structures[k]['name'] for k in structure_acronyms]
     total = 0
     total_volume = 0
 
@@ -100,6 +53,7 @@ def get_lateralisation_keys(lateralisation):
 
 
 def get_cellfinder_bar_data(
+    atlas,
     experiment_filepath,
     plotting_keys,
     reference_key,
@@ -118,10 +72,10 @@ def get_cellfinder_bar_data(
     reference_keys = []
 
     for k, ref_k in zip(plotting_keys, [reference_key] * len(plotting_keys)):
-        n_cells_in_region, region_volume = get_n_cells_in_region(
+        n_cells_in_region, region_volume = get_n_cells_in_region(atlas,
             df_results, k, lateralisation=lateralisation
         )
-        n_cells_in_reference, _ = get_n_cells_in_region(
+        n_cells_in_reference, _ = get_n_cells_in_region(atlas,
             df_results, ref_k, distance=0, lateralisation=lateralisation
         )
         reference_counts.append(n_cells_in_reference)
@@ -311,7 +265,9 @@ def plot_cellfinder_bar_summary(
     print_latex=False,
     plot_each_sample=False,
     plot_group_analysis=False,
+    atlas_name = 'allen_mouse_10um',
 ):
+    atlas = bg_atlasapi.BrainGlobeAtlas(atlas_name)
     dfs_all = []
     colors_palette = sns.set_palette(sns.color_palette(colors))
     for experiment_filepaths in [group_a_filepaths, group_b_filepaths]:
@@ -320,6 +276,7 @@ def plot_cellfinder_bar_summary(
         for experiment_filepath in experiment_filepaths:
 
             single_sample_df = get_cellfinder_bar_data(
+                atlas,
                 experiment_filepath,
                 plotting_keys,
                 reference_structure_key,
