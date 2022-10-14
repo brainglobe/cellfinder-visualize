@@ -2,11 +2,8 @@ import pathlib
 import pickle
 from enum import Enum
 from multiprocessing import Process
-import json
-import bg_atlasapi
 import fire
 import matplotlib as mpl
-from bg_atlasapi import BrainGlobeAtlas
 from magicgui import magicgui
 
 from cellfinder_visualize.process_summary import plot_cellfinder_bar_summary
@@ -28,7 +25,7 @@ class Hemisphere(Enum):
     call_button="Run",
     persist=False,
     tooltips=True,
-    experiment_group={"choices": ['', ''], "allow_multiple": True},
+    experiment_group={"choices": ["", ""], "allow_multiple": True},
     add_to_group_a=dict(widget_type="PushButton", text="Set Group A"),
     add_to_group_b=dict(widget_type="PushButton", text="Set Group B"),
     save_settings=dict(widget_type="PushButton", text="Save Settings"),
@@ -109,7 +106,7 @@ def analyse(
     directory tree will be rendered.
     :return:
     """
-    atlas_name = 'allen_mouse_10um'
+    atlas_name = "allen_mouse_10um"
 
     if brainrender:
 
@@ -145,12 +142,12 @@ def analyse(
         colors=colors,
         plot_each_sample=plot_each_sample,
         plot_group_analysis=plot_group_analysis,
-        atlas_name='allen_mouse_10um',
+        atlas_name="allen_mouse_10um",
     )
 
 
 def is_cellfinder_path(p):
-    return len(list(p.glob('cellfinder.json'))) > 0
+    return len(list(p.glob("cellfinder.json"))) > 0
 
 
 @analyse.experiment_dir.changed.connect
@@ -166,13 +163,15 @@ def load_all_samples():
 def save_settings(event=None):
     print(analyse.asdict())
 
-    with open(pathlib.Path(analyse.output_dir.value) / 'settings.pkl', 'wb') as f:
+    with open(
+        pathlib.Path(analyse.output_dir.value) / "settings.pkl", "wb"
+    ) as f:
         pickle.dump(analyse.asdict(), f)
 
 
 @analyse.config.changed.connect
 def load_settings(event=None):
-    with open(analyse.config.value, 'rb') as f:
+    with open(analyse.config.value, "rb") as f:
         loaded_dict = pickle.load(f)
 
     for k, v in loaded_dict.items():

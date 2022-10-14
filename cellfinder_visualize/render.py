@@ -34,7 +34,7 @@ def render_areas(
     slice_root=True,
     highlight_subregion="6",
     subsample_factor=10,
-    atlas_name='allen_mouse_10um',
+    atlas_name="allen_mouse_10um",
 ):
     atlas = bg_atlasapi.BrainGlobeAtlas(atlas_name)
 

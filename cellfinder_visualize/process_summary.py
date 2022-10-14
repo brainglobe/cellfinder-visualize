@@ -12,11 +12,12 @@ from cellfinder_visualize.region_groupings import metrics_and_axis_labels
 import bg_atlasapi
 
 
-
-def get_n_cells_in_region(atlas, df_results, key, distance=2, lateralisation="left"):
+def get_n_cells_in_region(
+    atlas, df_results, key, distance=2, lateralisation="left"
+):
 
     structure_acronyms = atlas.get_structure_descendants(key)
-    structure_names = [atlas.structures[k]['name'] for k in structure_acronyms]
+    structure_names = [atlas.structures[k]["name"] for k in structure_acronyms]
     total = 0
     total_volume = 0
 
@@ -72,11 +73,11 @@ def get_cellfinder_bar_data(
     reference_keys = []
 
     for k, ref_k in zip(plotting_keys, [reference_key] * len(plotting_keys)):
-        n_cells_in_region, region_volume = get_n_cells_in_region(atlas,
-            df_results, k, lateralisation=lateralisation
+        n_cells_in_region, region_volume = get_n_cells_in_region(
+            atlas, df_results, k, lateralisation=lateralisation
         )
-        n_cells_in_reference, _ = get_n_cells_in_region(atlas,
-            df_results, ref_k, distance=0, lateralisation=lateralisation
+        n_cells_in_reference, _ = get_n_cells_in_region(
+            atlas, df_results, ref_k, distance=0, lateralisation=lateralisation
         )
         reference_counts.append(n_cells_in_reference)
         reference_keys.append(ref_k)
@@ -265,7 +266,7 @@ def plot_cellfinder_bar_summary(
     print_latex=False,
     plot_each_sample=False,
     plot_group_analysis=False,
-    atlas_name = 'allen_mouse_10um',
+    atlas_name="allen_mouse_10um",
 ):
     atlas = bg_atlasapi.BrainGlobeAtlas(atlas_name)
     dfs_all = []
