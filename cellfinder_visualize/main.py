@@ -2,6 +2,7 @@ import pathlib
 import pickle
 from enum import Enum
 from multiprocessing import Process
+
 import fire
 import matplotlib as mpl
 from magicgui import magicgui

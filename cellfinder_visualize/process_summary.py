@@ -1,6 +1,7 @@
 import logging
 import pathlib
 
+import bg_atlasapi
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -9,7 +10,6 @@ from makefig.config import default_axis_positions, default_label_positions
 from makefig.construct_figure import make_figure
 
 from cellfinder_visualize.region_groupings import metrics_and_axis_labels
-import bg_atlasapi
 
 
 def get_n_cells_in_region(
