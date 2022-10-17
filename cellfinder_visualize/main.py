@@ -75,9 +75,12 @@ def analyse(
     plot_group_analysis=True,
     load_additional_obj_files=True,
     experiment_group=[],
+    camera_pos=(-15854, -61680, 23155),
+    camera_viewup=(1, 0, -1),
+    camera_clipping_range=(57281, 96305),
+
 ):
     """
-
     :param experiment_dir: The directory containing all cellfinder output
     directories to analyse together.
     :param output_dir: The directory where all output figures will be saved.
@@ -108,7 +111,7 @@ def analyse(
     :return:
     """
     atlas_name = "allen_mouse_10um"
-
+    camera = {"pos": camera_pos, "viewup": camera_viewup, "clippingRange": camera_clipping_range, }
     if brainrender:
 
         p = Process(
@@ -129,6 +132,7 @@ def analyse(
                 highlight_subregion,
                 subsample_factor,
                 atlas_name,
+                camera,
             ),
         )
         p.start()
