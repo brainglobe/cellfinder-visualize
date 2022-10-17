@@ -41,7 +41,7 @@ Simply run from the commandline as follows
 
 This will open a GUI for selecting parameters
 
-<img src='https://user-images.githubusercontent.com/12136220/196154908-edfcbfae-7c29-44aa-b77a-0a655bd5c46e.png' width="1000">
+<img src='https://user-images.githubusercontent.com/12136220/196169651-7f03cafe-4de4-45f5-b9d2-e60fd449f662.png' width="1000">
 
 
 ```experiment dir``` should be a directory containing cellfinder output directories. When selected, all subfolders in the selected directory will be displayed and available in the ```experiment group``` section in the GUI where they can be selected and assigned a group for running through the analysis.
@@ -87,6 +87,16 @@ This will open a GUI for selecting parameters
 ```barplots``` if checked, barplots will be generated of the cell counts.
 
 ```load additional obj files``` if any .obj files are present in the directory given then they will be rendered in the brainrender view.
+
+```camera pos``` position of the camera in brainrender.
+
+```camera viewup``` the camera "up" direction for brainrender.
+
+```camera clipping range``` the range of clipping the brainrender image.
+
+```shader style``` the shader option to be used in brainrender.
+
+
 
 
 
