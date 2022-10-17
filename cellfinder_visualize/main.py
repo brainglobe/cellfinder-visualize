@@ -1,4 +1,5 @@
 import pathlib
+import pickle
 from enum import Enum
 from multiprocessing import Process
 
@@ -18,21 +19,33 @@ class Hemisphere(Enum):
     both = "both"
 
 
+class ShaderStyle(Enum):
+    cartoon = ("cartoon",)
+    metallic = ("metallic",)
+    plastic = ("plastic",)
+    shiny = ("shiny",)
+    glossy = "glossy"
+
+
 @magicgui(
     experiment_dir={"mode": "d"},
     output_dir={"mode": "d"},
+    config={"mode": "w"},
     call_button="Run",
     persist=False,
     tooltips=True,
-    experiment_group={"choices": [1, 2], "allow_multiple": True},
+    experiment_group={"choices": ["", ""], "allow_multiple": True},
     add_to_group_a=dict(widget_type="PushButton", text="Set Group A"),
     add_to_group_b=dict(widget_type="PushButton", text="Set Group B"),
+    save_settings=dict(widget_type="PushButton", text="Save Settings"),
 )
 def analyse(
     add_to_group_a,
     add_to_group_b,
+    save_settings,
     experiment_dir=pathlib.Path.home(),
     output_dir=pathlib.Path.home(),
+    config=pathlib.Path.home(),
     coronal_slice_start=0,
     coronal_slice_end=12000,
     root=True,
@@ -70,9 +83,12 @@ def analyse(
     plot_group_analysis=True,
     load_additional_obj_files=True,
     experiment_group=[],
+    camera_pos=(-15854, -61680, 23155),
+    camera_viewup=(1, 0, -1),
+    camera_clipping_range=(57281, 96305),
+    shader_style=ShaderStyle.cartoon,
 ):
     """
-
     :param experiment_dir: The directory containing all cellfinder output
     directories to analyse together.
     :param output_dir: The directory where all output figures will be saved.
@@ -102,7 +118,12 @@ def analyse(
     directory tree will be rendered.
     :return:
     """
-
+    atlas_name = "allen_mouse_10um"
+    camera = {
+        "pos": camera_pos,
+        "viewup": camera_viewup,
+        "clippingRange": camera_clipping_range,
+    }
     if brainrender:
 
         p = Process(
@@ -122,6 +143,9 @@ def analyse(
                 slice_root,
                 highlight_subregion,
                 subsample_factor,
+                atlas_name,
+                camera,
+                shader_style.name,
             ),
         )
         p.start()
@@ -136,14 +160,40 @@ def analyse(
         colors=colors,
         plot_each_sample=plot_each_sample,
         plot_group_analysis=plot_group_analysis,
+        atlas_name="allen_mouse_10um",
     )
+
+
+def is_cellfinder_path(p):
+    return len(list(p.glob("cellfinder.json"))) > 0
 
 
 @analyse.experiment_dir.changed.connect
 def load_all_samples():
     p = analyse.experiment_dir.value
     paths = list(p.glob("*"))
-    analyse.experiment_group.choices = paths
+    cellfinder_paths = [p for p in paths if is_cellfinder_path(p)]
+
+    analyse.experiment_group.choices = cellfinder_paths
+
+
+@analyse.save_settings.changed.connect
+def save_settings(event=None):
+    print(analyse.asdict())
+
+    with open(
+        pathlib.Path(analyse.output_dir.value) / "settings.pkl", "wb"
+    ) as f:
+        pickle.dump(analyse.asdict(), f)
+
+
+@analyse.config.changed.connect
+def load_settings(event=None):
+    with open(analyse.config.value, "rb") as f:
+        loaded_dict = pickle.load(f)
+
+    for k, v in loaded_dict.items():
+        analyse[k].value = v
 
 
 @analyse.add_to_group_a.changed.connect

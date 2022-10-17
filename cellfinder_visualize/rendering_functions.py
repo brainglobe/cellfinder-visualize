@@ -1,8 +1,6 @@
 import numpy as np
 from brainrender.actors import Points
 
-from cellfinder_visualize.process_summary import get_all_children
-
 
 def render_cells_in_regions(cells, regions, regions_rendered, scene, color):
     for region in regions:
@@ -20,19 +18,19 @@ def render_regions(_colors, region_keys, scene, hemisphere, alpha=0.2):
         region = scene.add_brain_region(
             region_name, color=color, alpha=alpha, hemisphere=hemisphere
         )
-        scene.add_silhouette(region, lw=3)
         regions.append(region)
     return regions
 
 
 def highlight_layer(
+    atlas,
     highlight_substructure_key,
     region_name,
     regions_rendered,
     scene,
     hemisphere,
 ):
-    children = get_all_children(region_name)
+    children = atlas.get_structure_descendants(region_name)
 
     if highlight_substructure_key != "all":
         for k in children:
@@ -60,7 +58,6 @@ def render_cells_in_region(cells, region, regions_rendered, scene, color):
     )
     scene.add(cells_in_region)
     regions_rendered.append(cells_in_region)
-    scene.add_silhouette(region, lw=3)
     return regions_rendered
 
 
