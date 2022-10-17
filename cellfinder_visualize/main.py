@@ -78,7 +78,6 @@ def analyse(
     camera_pos=(-15854, -61680, 23155),
     camera_viewup=(1, 0, -1),
     camera_clipping_range=(57281, 96305),
-
 ):
     """
     :param experiment_dir: The directory containing all cellfinder output
@@ -111,7 +110,11 @@ def analyse(
     :return:
     """
     atlas_name = "allen_mouse_10um"
-    camera = {"pos": camera_pos, "viewup": camera_viewup, "clippingRange": camera_clipping_range, }
+    camera = {
+        "pos": camera_pos,
+        "viewup": camera_viewup,
+        "clippingRange": camera_clipping_range,
+    }
     if brainrender:
 
         p = Process(
