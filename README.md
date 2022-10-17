@@ -25,7 +25,7 @@ The core aims are to provide:
 
 ```conda activate  cellfinder-visualize```
 
-```git clone https://github.com/SainsburyWellcomeCentre/cellfinder-visualize.git```
+```git clone https://github.com/brainglobe/cellfinder-visualize.git```
 
 ```cd cellfinder-visualize```
 
