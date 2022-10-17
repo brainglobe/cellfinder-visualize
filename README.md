@@ -41,8 +41,7 @@ Simply run from the commandline as follows
 
 This will open a GUI for selecting parameters
 
-<img src='https://user-images.githubusercontent.com/12136220/191545294-11b631b2-4189-4b77-af96-002cd498d3b1.png' width="1000">
-
+<img src='https://user-images.githubusercontent.com/12136220/196154908-edfcbfae-7c29-44aa-b77a-0a655bd5c46e.png' width="1000">
 
 
 ```experiment dir``` should be a directory containing cellfinder output directories. When selected, all subfolders in the selected directory will be displayed and available in the ```experiment group``` section in the GUI where they can be selected and assigned a group for running through the analysis.
@@ -54,6 +53,10 @@ This will open a GUI for selecting parameters
 ```Set Group B``` when clicked, this button will assign all currently highlighted directories to a single experimental group (group B) for analysis.
 
 ```output dir``` should be a directory for saving any outputs for your sample
+
+```Save Settings``` when clicked, this button will save the current selected settings to a file called settings.pkl in the output directory that can be loaded again later.
+
+```config``` select a previously saved settings.pkl file to load previous settings into the GUI.
 
 ```coronal slice start``` if you want to show only a coronal subsection this value is the start in microns
 
