@@ -19,6 +19,15 @@ class Hemisphere(Enum):
     both = "both"
 
 
+class ShaderStyle(Enum):
+    cartoon="cartoon",
+    metallic = "metallic",
+    plastic="plastic",
+    shiny="shiny",
+    glossy="glossy"
+
+
+
 @magicgui(
     experiment_dir={"mode": "d"},
     output_dir={"mode": "d"},
@@ -78,6 +87,7 @@ def analyse(
     camera_pos=(-15854, -61680, 23155),
     camera_viewup=(1, 0, -1),
     camera_clipping_range=(57281, 96305),
+    shader_style=ShaderStyle.cartoon
 ):
     """
     :param experiment_dir: The directory containing all cellfinder output
@@ -136,6 +146,7 @@ def analyse(
                 subsample_factor,
                 atlas_name,
                 camera,
+                shader_style.name,
             ),
         )
         p.start()

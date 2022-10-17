@@ -18,7 +18,6 @@ def render_regions(_colors, region_keys, scene, hemisphere, alpha=0.2):
         region = scene.add_brain_region(
             region_name, color=color, alpha=alpha, hemisphere=hemisphere
         )
-        scene.add_silhouette(region, lw=3)
         regions.append(region)
     return regions
 
@@ -59,7 +58,6 @@ def render_cells_in_region(cells, region, regions_rendered, scene, color):
     )
     scene.add(cells_in_region)
     regions_rendered.append(cells_in_region)
-    scene.add_silhouette(region, lw=3)
     return regions_rendered
 
 

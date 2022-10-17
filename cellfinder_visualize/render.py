@@ -36,10 +36,11 @@ def render_areas(
     subsample_factor=10,
     atlas_name="allen_mouse_10um",
     camera=camera,
+    shader_style="cartoon",
 ):
     atlas = bg_atlasapi.BrainGlobeAtlas(atlas_name)
 
-    brainrender.SHADER_STYLE = "cartoon"
+    brainrender.settings.SHADER_STYLE = shader_style
 
     regions_rendered = []
     scene = Scene(title="labelled cells", root=root)
@@ -105,7 +106,6 @@ def render_areas(
         slice_coronal_volume(
             coronal_slice, regions_rendered, scene, slice_thickness
         )
-
     scene.render(camera=camera, zoom=zoom)
 
 
