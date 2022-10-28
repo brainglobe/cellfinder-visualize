@@ -41,10 +41,14 @@ Simply run from the commandline as follows
 
 This will open a GUI for selecting parameters
 
-<img src='https://user-images.githubusercontent.com/12136220/196169651-7f03cafe-4de4-45f5-b9d2-e60fd449f662.png' width="1000">
+<img src='https://user-images.githubusercontent.com/12136220/198670016-970fcd91-34fc-4d52-97f6-be54cd832312.png' width="1000">
 
 
 ```experiment dir``` should be a directory containing cellfinder output directories. When selected, all subfolders in the selected directory will be displayed and available in the ```experiment group``` section in the GUI where they can be selected and assigned a group for running through the analysis.
+
+```output dir``` should be a directory for saving any outputs for your sample
+
+```config``` select a previously saved settings.pkl file to load previous settings into the GUI.
 
 ```experiment group``` sample directories shown under experiment group can be selected and assigned to groups for comparative analysis.
 
@@ -52,11 +56,15 @@ This will open a GUI for selecting parameters
 
 ```Set Group B``` when clicked, this button will assign all currently highlighted directories to a single experimental group (group B) for analysis.
 
-```output dir``` should be a directory for saving any outputs for your sample
+```region list``` each item in this list will be displayed and included in any analysis
 
-```Save Settings``` when clicked, this button will save the current selected settings to a file called settings.pkl in the output directory that can be loaded again later.
+```colors``` color labels that each correspond to items in the region list.
 
-```config``` select a previously saved settings.pkl file to load previous settings into the GUI.
+```plot each sample``` if checked, then each individual sample will be plotted to show its own cell counts for the regions selected.
+
+```plot group analysis``` if checked, then samples assigned to Group A and Group B will be compared with each other.
+
+```brainrender``` if checked, brainrender will run.
 
 ```coronal slice start``` if you want to show only a coronal subsection this value is the start in microns
 
@@ -76,15 +84,7 @@ This will open a GUI for selecting parameters
 
 ```highlight subregion``` outlines will be drawn for subregions that contain the string in this box. i.e. if you wanted to highlight layer 5 in displayed regions, then ```5``` would achieve this.
 
-```region list``` each item in this list will be displayed and included in any analysis
-
-```colors``` color labels that each correspond to items in the region list.
-
 ```reference region``` the region used to normalise cell counts to.
-
-```brainrender``` if checked, brainrender will run.
-
-```barplots``` if checked, barplots will be generated of the cell counts.
 
 ```load additional obj files``` if any .obj files are present in the directory given then they will be rendered in the brainrender view.
 
@@ -96,8 +96,7 @@ This will open a GUI for selecting parameters
 
 ```shader style``` the shader option to be used in brainrender.
 
-
-
+```Save Settings``` when clicked, this button will save the current selected settings to a file called settings.pkl in the output directory that can be loaded again later.
 
 
 The end result should be bar plots per sample indicating the counts and percentages of cells in each region:
