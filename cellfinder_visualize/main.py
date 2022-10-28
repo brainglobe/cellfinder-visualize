@@ -40,9 +40,6 @@ class ShaderStyle(Enum):
     save_settings=dict(widget_type="PushButton", text="Save Settings"),
 )
 def analyse(
-    add_to_group_a,
-    add_to_group_b,
-    save_settings,
     experiment_dir=pathlib.Path.home(),
     output_dir=pathlib.Path.home(),
     config=pathlib.Path.home(),
@@ -83,10 +80,13 @@ def analyse(
     plot_group_analysis=True,
     load_additional_obj_files=True,
     experiment_group=[],
+    add_to_group_a=False,
+    add_to_group_b=False,
     camera_pos=(-15854, -61680, 23155),
     camera_viewup=(1, 0, -1),
     camera_clipping_range=(57281, 96305),
     shader_style=ShaderStyle.cartoon,
+    save_settings=False,
 ):
     """
     :param experiment_dir: The directory containing all cellfinder output
