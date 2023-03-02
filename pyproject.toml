@@ -57,7 +57,7 @@ dev = [
 ]
 
 [project.scripts]
-add_nums = "cellfinder_visualize.cellfinder_visualize:main"
+cellfinder_visualize = "cellfinder_visualize.main:main"
 
 [build-system]
 requires = [
