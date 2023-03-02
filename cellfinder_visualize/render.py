@@ -74,7 +74,6 @@ def render_areas(
         regions_rendered.extend(regions)
 
     else:
-
         if show_reference_structures:
             for k in reference_structures_to_render:
                 reg = scene.add_brain_region(

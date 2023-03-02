@@ -125,7 +125,6 @@ def analyse(
         "clippingRange": camera_clipping_range,
     }
     if brainrender:
-
         p = Process(
             target=render_areas,
             args=(
