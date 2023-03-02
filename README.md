@@ -21,15 +21,11 @@ The core aims are to provide:
 ## Installation
 
 
-```conda create -n  cellfinder-visualize python```
+```conda create -n  cellfinder-visualize python=3.10```
 
 ```conda activate  cellfinder-visualize```
 
-```git clone https://github.com/brainglobe/cellfinder-visualize.git```
-
-```cd cellfinder-visualize```
-
-```pip install -e .```
+```pip install cellfinder-visualize```
 
 ## Usage
 

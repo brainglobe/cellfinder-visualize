@@ -15,7 +15,6 @@ from cellfinder_visualize.region_groupings import metrics_and_axis_labels
 def get_n_cells_in_region(
     atlas, df_results, key, distance=2, lateralisation="left"
 ):
-
     structure_acronyms = atlas.get_structure_descendants(key)
     structure_names = [atlas.structures[k]["name"] for k in structure_acronyms]
     total = 0
@@ -132,9 +131,7 @@ def plot_pooled_experiments(
     output_directory,
     boxplot=False,
 ):
-
     if len(df_group_a) > 1 and len(df_group_b) > 1:
-
         df_group_a = pd.concat(df_group_a)
         df_group_b = pd.concat(df_group_b)
 
@@ -275,7 +272,6 @@ def plot_cellfinder_bar_summary(
         group_dfs = []
 
         for experiment_filepath in experiment_filepaths:
-
             single_sample_df = get_cellfinder_bar_data(
                 atlas,
                 experiment_filepath,
