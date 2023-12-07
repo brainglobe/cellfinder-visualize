@@ -1,3 +1,5 @@
+**cellfinder-visualize is now archived. Development may be restarted in the future, or the functionality may be incorporated into other tools such as [brainrender-napari](https://github.com/brainglobe/brainrender-napari)**
+
 # Cellfinder-visualize User Guide
 
 ## About
